@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ComexWise | Logistics Orchestration Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#0052ad",
+              "surface-container": "#eceeeb",
+              "tertiary-fixed": "#d8e2ff",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#acd28c",
+              "surface-bright": "#f8faf6",
+              "primary-container": "#80e142",
+              "inverse-surface": "#2e312f",
+              "on-primary-container": "#2a6100",
+              "error": "#ba1a1a",
+              "primary": "#2f6c00",
+              "outline": "#707a66",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e1e3df",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#0c2000",
+              "surface-dim": "#d8dbd7",
+              "tertiary-fixed-dim": "#adc7ff",
+              "on-surface": "#191c1a",
+              "on-secondary-fixed-variant": "#304f18",
+              "secondary": "#47672d",
+              "secondary-container": "#c5eba3",
+              "surface-container-high": "#e7e9e5",
+              "surface": "#f8faf6",
+              "tertiary-container": "#b2caff",
+              "on-error-container": "#93000a",
+              "background": "#f8faf6",
+              "on-secondary-container": "#4b6c31",
+              "secondary-fixed": "#c8eea5",
+              "surface-tint": "#2f6c00",
+              "on-surface-variant": "#404a38",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#7dde3f",
+              "tertiary": "#005bc0",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#eff1ee",
+              "surface-container-low": "#f2f4f0",
+              "primary-fixed": "#98fb59",
+              "on-primary-fixed": "#092100",
+              "on-tertiary-fixed-variant": "#004493",
+              "on-tertiary-fixed": "#001a41",
+              "surface-container-highest": "#e1e3df",
+              "on-primary-fixed-variant": "#225100",
+              "on-background": "#191c1a",
+              "primary-fixed-dim": "#7dde3f",
+              "outline-variant": "#bfcab2",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .editorial-margin {
+            margin-left: 4rem;
+        }
+        @media (max-width: 768px) {
+            .editorial-margin {
+                margin-left: 0;
+            }
+        }
+        .text-shadow-sm {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .text-shadow-md {
+            text-shadow: 0 4px 8px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm dark:shadow-none border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-6 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 flex items-center gap-2" href="#">
+<img alt="ComexWise Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqR6Y_Ml5c2FbRUOQIUIbti_eqcX3L6DSJAnssHjLMLGfc6S9X521GlNkDKHZTu6Cz73-BisRyK4FFAF-oIZKzBZsOCdAILLcp2U7GGJ2LD2nFR-I6Kzjm1v1c2K0eC1STDiDeLUMVL7oQl2Hr2zb8MxrE0QRmSzWRqsHctSLHeF-XO6K82NnwVwOp2t5lrVth-SjDcmSwHtsA2wEdEOki-qlW3uyEVVD3JIChhrty9Rr8IBD1A0ZcO52OK1EboGTNh2M1weWgRHY"/>
+                ComexWise
+            </a>
+<div class="hidden md:flex items-center gap-6 font-sans antialiased text-sm font-medium tracking-tight">
+<a class="text-lime-700 dark:text-lime-300 border-b-2 border-lime-500 pb-1" href="#platform">Platform</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#orders">Orders</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#partners">Partners</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#tracking">Tracking</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#ai">AI</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#security">Security</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-zinc-600 dark:text-zinc-400 font-medium text-sm hover:bg-zinc-100/50 px-4 py-2 rounded-lg transition-all">Login</button>
+<button class="bg-gradient-to-r from-primary to-primary-fixed-dim text-on-primary px-6 py-2.5 rounded-md font-semibold text-sm shadow-lg shadow-primary/10 active:scale-95 transition-transform">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section: Immersive Full-Width Parallax -->
+<header class="relative min-h-screen flex items-center pt-20 overflow-hidden parallax-section" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz45eoeeMhciac-egqoxBGOUOvLupy7l24E_AB9Jeo8GN29jER_Ti_2zklOfITbROJ9qUnBDy7qF_GpFqlSY75H00tDLqbnQXxrnO3jUyta9FwKOsygnr6TfQ0cL9e1PJlCxbimmK95fVSIegLKSemrpR5rbNytWcbULee0QvDf00IDpn5HS86Hg23JXhLxEUwnx6eyoPR5_NRnl2_oCXiW_AL1pfdAzp32RP7njWUWUa-ulRfCkZD2gqD1uDQ6_RkCySuzc_GBp0');">
+<div class="absolute inset-0 bg-black/50"></div>
+<div class="max-w-7xl mx-auto px-6 w-full relative z-10 text-center lg:text-left">
+<div class="max-w-4xl lg:editorial-margin">
+<span class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase rounded mb-6">The Future of Logistics</span>
+<h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white leading-[1.05] mb-8 text-shadow-md">
+                Manage your entire logistics operation <span class="text-primary-container italic">across all partners</span> in one platform.
+            </h1>
+<p class="text-xl md:text-2xl text-zinc-100 max-w-2xl mb-12 leading-relaxed text-shadow-sm">
+                No emails. No spreadsheets. No manual coordination. Orchestrate your global supply chain with mathematical precision and fluid automation.
+            </p>
+<div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+<button class="px-10 py-5 bg-primary text-on-primary rounded-md font-bold text-xl hover:shadow-2xl hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all flex items-center gap-3 active:scale-95">
+                    Launch Dashboard
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="px-10 py-5 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-md font-bold text-xl hover:bg-white/20 transition-all active:scale-95">
+                    View Demo
+                </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Platform Overview -->
+<section class="py-32 bg-surface" id="platform">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col lg:flex-row justify-between items-end gap-8 mb-24">
+<div class="max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">The logistics operating system</h2>
+<p class="text-lg text-on-surface-variant">We don't just track shipments; we orchestrate ecosystems. ComexWise is built to dissolve the friction between disparate systems and fragmented communications.</p>
+</div>
+<div class="flex items-center gap-2 text-primary font-bold tracking-tight mb-2">
+<span class="text-5xl">10x</span>
+<span class="text-sm uppercase leading-none text-on-surface-variant">Operational<br/>Efficiency</span>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-12">
+<!-- Bento Card 1 -->
+<div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">hub</span>
+<h3 class="text-xl font-bold mb-4">Centralized Command</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">A single source of truth for every stakeholder, from procurement to final mile delivery.</p>
+</div>
+<!-- Bento Card 2 -->
+<div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">automation</span>
+<h3 class="text-xl font-bold mb-4">Fluid Workflows</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Automated document handling and status updates that move at the speed of your business.</p>
+</div>
+<!-- Bento Card 3 -->
+<div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">analytics</span>
+<h3 class="text-xl font-bold mb-4">Predictive Intelligence</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Identify bottlenecks before they become delays with AI-driven forecasting.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Order Management (The Flow) with Large Focus Image -->
+<section class="py-32 bg-surface-container-lowest overflow-hidden" id="orders">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-20 items-center">
+<div class="order-2 lg:order-1">
+<div class="space-y-12">
+<div class="relative pl-12">
+<div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-primary-container flex items-center justify-center font-bold text-on-primary-container">1</div>
+<div class="absolute left-4 top-8 bottom-[-48px] w-px bg-outline-variant/30"></div>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Import &amp; Export Initiation</h4>
+<p class="text-on-surface-variant">Digitize commercial invoices and packing lists instantly. AI extracts critical data to prepopulate customs declarations.</p>
+</div>
+<div class="relative pl-12">
+<div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-on-primary">2</div>
+<div class="absolute left-4 top-8 bottom-[-48px] w-px bg-outline-variant/30"></div>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Dynamic Allocation</h4>
+<p class="text-on-surface-variant">Route orders through our Multi-Forwarder engine to optimize for cost, speed, or carrier reliability.</p>
+</div>
+<div class="relative pl-12">
+<div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-secondary-container">3</div>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Full Execution Cycle</h4>
+<p class="text-on-surface-variant">Real-time collaboration with carriers and customs brokers until the final POD is secured.</p>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<h2 class="text-4xl font-bold tracking-tight mb-8">Precision Order Management</h2>
+<p class="text-lg text-on-surface-variant mb-12">Transform your import/export process into a seamless digital stream. No more "where is the document?" calls.</p>
+<div class="relative rounded-2xl overflow-hidden shadow-2xl">
+<img alt="Massive cargo aircraft being loaded" class="w-full aspect-[4/5] object-cover hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHt261BdbHbr4_48ZWkRXGFQ5vOU8Yx0hZkACJkGPPIEZAAPisfOaIDs8Rxw1YzeWvFAjUKw5pr1R-6Uq9QUaH5iG6HqhrellMOkVmCp-CS5-nHhPICf1JahEyA5keSZw4D9A45PTvOYgDvEZdYzeXedzxTDlUaIpz1mY4mV2XXKsK7d_gRAGHam2XDXGFj5WNsup2TYLxdJiYcxPxpUv2NYjuz_QJyXTPmwaYmr13wJ414mdkGvkWNYi1Vf9pTxVhSqLUg3yuhB0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+<p class="text-white text-sm font-bold tracking-widest uppercase">Air Freight Efficiency</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Integration Hub & Partners (Parallax Section) -->
+<section class="py-40 parallax-section" id="partners" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCl8NFkIFuy-uLfe63Tpf5jH_BAQINtbo4olsDb3aQspUcPJqyZ2fXSK7hqV0tJxa1S99JyrOYbi1wsVBRU-hkYsjsJVfq8_OSX6v2KgaXBDj9JTND2gkT0XYX8pnpuAVjDJEr1rYAszvKcqF3XL0YPI1IzrKLcsnG3MbpumMbDrUCL6QY0bjFEhm8bgXr1UEXGSrLJZdkRB-bC1fVdwQVEzcgJTiiljEk7BshW_fMe05u2UaFmNn_2qZ9Go5md6PoAwpjO-9usdNc');">
+<div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+<div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 relative z-10">
+<div class="bg-surface-container-lowest/70 backdrop-blur-xl p-12 rounded-3xl shadow-xl border border-white/50">
+<h2 class="text-3xl font-bold mb-8">Integration Hub</h2>
+<p class="text-on-surface-variant mb-10">We speak the language of your enterprise. Seamlessly connect your core systems without complex middleware.</p>
+<div class="grid grid-cols-3 gap-6 opacity-80">
+<div class="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all">
+<div class="w-16 h-16 bg-white flex items-center justify-center rounded-xl shadow-sm font-black text-xs text-zinc-400">SAP</div>
+</div>
+<div class="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all">
+<div class="w-16 h-16 bg-white flex items-center justify-center rounded-xl shadow-sm font-black text-xs text-zinc-400">ORACLE</div>
+</div>
+<div class="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all">
+<div class="w-16 h-16 bg-white flex items-center justify-center rounded-xl shadow-sm font-black text-xs text-zinc-400">TOTVS</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center" id="integration">
+<h2 class="text-3xl font-bold mb-6">Partner Portal</h2>
+<p class="text-on-surface-variant mb-8">Collaboration is the soul of ComexWise. Invite your entire supply chain ecosystem into a shared workspace.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                    Ocean &amp; Air Carriers
+                </li>
+<li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                    Customs Brokers
+                </li>
+<li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                    Domestic Trucking Partners
+                </li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Track & Trace & AI (Large Visual Focus) -->
+<section class="py-32 bg-surface" id="tracking">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-24">
+<div>
+<span class="material-symbols-outlined text-5xl text-primary mb-8">location_searching</span>
+<h2 class="text-4xl font-bold tracking-tight mb-8">Real-time Track &amp; Trace</h2>
+<p class="text-lg text-on-surface-variant mb-12">Integrated directly with ocean and air carrier telematics. Know exactly where your cargo is—no manual refresh required.</p>
+<div class="flex flex-col gap-6 mb-12">
+<div class="flex items-center justify-between p-6 bg-surface-container-low rounded-xl">
+<div>
+<p class="text-xs font-bold uppercase text-outline mb-1">Current Vessel</p>
+<p class="font-bold">MAERSK HANOI</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold uppercase text-primary mb-1">Status</p>
+<p class="font-bold">In Transit</p>
+</div>
+</div>
+<div class="w-full h-2 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] rounded-full"></div>
+</div>
+</div>
+<img alt="Container ship at sea" class="w-full h-64 object-cover rounded-2xl shadow-lg border border-outline-variant/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUgFpkVf8iQ2kcgWkBuQWrsY6jUICltS54dKAgjEo9WfhitzvfmBxApoehaXEUhKXBNzuGTDM-7Oc0Neag8C3bkfX-KITjA9xDUzVH7aEPZtF1OmHWFPknazAnM3SR-XX6AjbBpEgdeF88J58KfiqqkPsVqObmH4J4rQXIhQgrIOrQ6Nb_u5GZzTJdC--b5i7HjluOTdxMXPVKDkiOi7XZuhr57JWNJrKwVIoL99pdjdiJtYmUdXXC7IcJV9ZJHBLUrDNWpm9g5dQ"/>
+</div>
+<div class="bg-on-surface text-surface p-12 rounded-3xl relative overflow-hidden flex flex-col justify-between" id="ai">
+<div class="absolute inset-0 opacity-20">
+<img alt="Logistics node background" class="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0T2OjO_fjJFln81hPxGIbjsqlgvy7r1rLqw4kGVEP5aTp8gwVt5b9a9qA9kQHkBOtOyh8jD4pAv6vOxAQ2wSe41EeikZ-xl1qXOBxauaOFcPrbAgJCbdin6QRzmVvK7lBvCLzNUeDph7Ei2L2EpiEmg0P5NWLCxNm9jz_8DoUieOzKWiPM7Qq-sPJpgg0MRJq6EmwdCFOp_eYhGQUUX6rB9Tcw5drntptbQ6feArr7iwccwregTJaeqzIdZ-cKBTAE5fgcr-vxPk"/>
+</div>
+<div class="relative z-10">
+<span class="material-symbols-outlined text-7xl text-primary-container mb-8">psychology</span>
+<h2 class="text-3xl font-bold mb-6 text-primary-container">AI &amp; Automation</h2>
+<p class="text-surface-variant mb-10 leading-relaxed text-lg">Stop digging through reports. Query your logistics data using natural language. "Show me all delayed shipments in the Pacific route" or "Predict which containers will miss the customs window."</p>
+</div>
+<div class="relative z-10 p-4 bg-white/10 rounded-xl font-mono text-sm border border-white/5 backdrop-blur">
+<span class="text-primary-container">Prompt:</span> Analyze route efficiency for Q3...
+                </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Analytics & Road Transport -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center max-w-3xl mx-auto mb-20">
+<h2 class="text-4xl font-bold tracking-tight mb-6">Actionable Analytics</h2>
+<p class="text-on-surface-variant">From high-level KPI dashboards to granular cost-per-kg tracking, we give you the data to negotiate better and move faster.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-12">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant/10" id="analytics">
+<h3 class="font-bold text-xl mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">dashboard</span>
+                    Performance KPI
+                </h3>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<span class="text-on-surface-variant">On-Time Delivery</span>
+<span class="text-2xl font-bold text-primary">94.2%</span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<span class="text-on-surface-variant">Average Lead Time</span>
+<span class="text-2xl font-bold text-on-surface">18 Days</span>
+</div>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-8 rounded-2xl shadow-lg relative overflow-hidden group" id="road">
+<div class="absolute inset-0 opacity-30">
+<img alt="Semi truck on highway" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB64tFg8NW-0LFZt3M9PHoHFq9kvPvWary5AE8iBWFVmTpSaarnqyIMvKjK3oDxTzEhqPDvOwCBE5i8vX6hrZqmqg6EDsqFT28WAWjzUCnlV6WhamghJw1Fa0Pa_eUn9hvtR6rrWCFpL8chHtSDSVh3WtF04ptjgHmUHAFzMp0fuMNg0H72WMYtRuDuOVChM52y-5zxDAhxsurUvoTOk-o4Hk1tq-m48dfgNm5ZD5xAS228aK0z4cr4_JdKIr1nKo4ckkYIYEOZgU"/>
+</div>
+<div class="relative z-10">
+<h3 class="font-bold text-xl mb-4 flex items-center gap-3">
+<span class="material-symbols-outlined">local_shipping</span>
+                        Road Transport
+                    </h3>
+<p class="text-primary-container font-medium mb-6">Seamlessly transition from global ocean freight to domestic road logistics. One platform for the entire journey.</p>
+<button class="bg-on-primary text-primary px-4 py-2 rounded font-bold text-xs uppercase tracking-widest shadow-lg">Explore Logistics</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Multi-Forwarder Allocation -->
+<section class="py-32 bg-surface">
+<div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+<div class="relative rounded-3xl overflow-hidden shadow-2xl">
+<img alt="Massive container ship at a terminal" class="w-full aspect-[4/3] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSFlfgnrlRWgXdvvXqxuP3OO9pfdGNvCHo3Q32wmlFRlCmKMzicT6kJ82B7DZSzZrUg_fE8NvK0KFVrBe3SCy607w2YRwQG_UK-Er2W61yzvvUfTnEZ9eqb_XADJIEgvbgA5XvkZEihVeQ5IkVfaIpe4-JE74qJudnREwvQ-DHWKhe51Enl_HYxRDUwZQ_44er8MSexLqdAF29rSWCiOtPzx8hAWn3rZTL5gmt1GewRsbEgwzZ1IEm531eNtR1usCZwn29KT3czT4"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent"></div>
+</div>
+<div id="multi-forwarder">
+<h2 class="text-4xl font-bold mb-8">Multi-Forwarder Strategy</h2>
+<p class="text-lg text-on-surface-variant mb-10">Avoid carrier lock-in. ComexWise allows you to implement resilient allocation strategies effortlessly.</p>
+<div class="space-y-8">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full border-4 border-primary-container flex items-center justify-center font-bold text-xl">50</div>
+<div>
+<p class="font-bold">Primary Carrier</p>
+<p class="text-sm text-on-surface-variant">High volume, negotiated stability.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full border-4 border-secondary-container flex items-center justify-center font-bold text-xl">30</div>
+<div>
+<p class="font-bold">Secondary Partner</p>
+<p class="text-sm text-on-surface-variant">Regional specialty and overflow support.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full border-4 border-outline-variant flex items-center justify-center font-bold text-xl">20</div>
+<div>
+<p class="font-bold">Spot Market / Emergency</p>
+<p class="text-sm text-on-surface-variant">Agile response to global disruptions.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Security & Compliance -->
+<section class="py-32 bg-zinc-900 text-zinc-100" id="security">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-xl">
+<h2 class="text-4xl font-bold mb-6">Security &amp; Compliance</h2>
+<p class="text-zinc-400 text-lg leading-relaxed">Enterprise-grade security isn't a feature; it's our foundation. We ensure every shipment meets international regulatory standards and data privacy protocols.</p>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="flex flex-col gap-2">
+<span class="material-symbols-outlined text-primary-container text-4xl">lock</span>
+<p class="font-bold">SOC 2 Type II</p>
+<p class="text-xs text-zinc-500 uppercase tracking-widest">Certified Data Security</p>
+</div>
+<div class="flex flex-col gap-2">
+<span class="material-symbols-outlined text-primary-container text-4xl">shield</span>
+<p class="font-bold">GDPR Compliant</p>
+<p class="text-xs text-zinc-500 uppercase tracking-widest">Global Privacy Standards</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-32 bg-surface" id="about">
+<div class="max-w-7xl mx-auto px-6">
+<div class="editorial-margin border-l-4 border-primary-container pl-12 py-8">
+<h2 class="text-3xl font-bold mb-8 italic">The ComexWise Story</h2>
+<p class="text-xl text-on-surface-variant max-w-4xl leading-relaxed mb-12">
+                ComexWise was born from the intersection of deep operational expertise and cutting-edge engineering. Founded by **Carlos Roberto** and **Soubhik Sen**, our mission was simple: to bring the elegance of modern fintech to the grit of global logistics. By combining decades of experience in supply chain management with a vision for total digital transparency, they built a platform that treats logistics not as a series of problems to be solved, but as a symphony to be orchestrated.
+            </p>
+<div class="flex gap-12 grayscale opacity-60">
+<div class="text-sm font-bold uppercase tracking-widest">Sao Paulo, BR</div>
+<div class="text-sm font-bold uppercase tracking-widest">San Francisco, US</div>
+<div class="text-sm font-bold uppercase tracking-widest">Global Operations</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA with Parallax Background -->
+<section class="py-40 parallax-section flex items-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJXJ9tqHFfMsQEpyo5WkWPsunmYxKYLXo0ECRucH8jPn11LsfO3yrW3CB-lftLTeW7XsoxlHEY13ga2NY3ffVhLIg-Wk05grm9MQBPkEf_TiY7nHkzMhS5eeQr-dEPmy_hHUUo7IKKo8XvQOnTwiATYyfZqZoxsSjCeFWwRlNAOGQIjxwMfRvw9uWoG_LHLCNYyxkr1AlSCgDx_jOmWFs4iCdtp5SaikAhfzTBKwt3LSk8XcQW7mAv1yREabaoraT7zbpQw1QgTA4');">
+<div class="absolute inset-0 bg-primary/90"></div>
+<div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+<h2 class="text-4xl md:text-6xl font-bold text-on-primary mb-8 tracking-tighter text-shadow-md">Ready to orchestrate your supply chain?</h2>
+<p class="text-primary-container text-xl mb-12 max-w-2xl mx-auto font-medium text-shadow-sm">Join the leading logistics teams moving the world with ComexWise.</p>
+<button class="px-10 py-5 bg-on-primary text-primary rounded-md font-black text-xl hover:scale-105 transition-transform shadow-2xl">Get Started Today</button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-zinc-50 dark:bg-zinc-900 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-between items-start gap-8 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-lg font-black text-zinc-800 dark:text-zinc-200">ComexWise</div>
+<p class="text-xs text-zinc-500 max-w-xs leading-relaxed uppercase tracking-widest font-semibold">
+                The Logistics Operating System for the Modern Enterprise.
+            </p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-24 font-sans text-xs uppercase tracking-widest font-semibold">
+<div class="flex flex-col gap-4">
+<span class="text-zinc-400">Platform</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Global Network</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">API Docs</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="text-zinc-400">Company</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Privacy Policy</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="text-zinc-400">Security</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Security Compliance</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between gap-4">
+<p class="font-sans text-xs uppercase tracking-widest font-semibold text-zinc-500 dark:text-zinc-400">
+            © 2024 ComexWise Logistics Orchestration. All rights reserved.
+        </p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-zinc-400">language</span>
+<span class="text-xs uppercase tracking-widest font-bold text-zinc-500">English (US)</span>
+</div>
+</div>
+</footer>
+</body></html>
