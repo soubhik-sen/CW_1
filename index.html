@@ -208,6 +208,140 @@
             letter-spacing: -0.03em;
             color: #123300;
         }
+        @media (max-width: 767px) {
+            .brand-wordmark {
+                font-size: 1.46rem;
+                letter-spacing: -0.025em;
+            }
+        }
+        .mobile-menu-btn {
+            width: 2.72rem;
+            height: 2.72rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(17, 24, 39, 0.12);
+            background: #ffffff;
+            color: #0f172a;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px -18px rgba(15, 23, 42, 0.5);
+            transition: background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+        }
+        .mobile-menu-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 16px 28px -20px rgba(15, 23, 42, 0.52);
+        }
+        .mobile-menu-panel {
+            position: absolute;
+            top: calc(100% + 0.45rem);
+            left: 0.72rem;
+            right: 0.72rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(113, 113, 122, 0.2);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 26px 44px -28px rgba(15, 23, 42, 0.58);
+            padding: 0.72rem;
+            transform-origin: top center;
+            transform: translateY(-6px) scale(0.985);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 180ms ease, opacity 180ms ease;
+        }
+        .mobile-menu-panel.open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .mobile-menu-links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.48rem;
+            margin-bottom: 0.66rem;
+        }
+        .mobile-nav-link {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 2.36rem;
+            border-radius: 0.72rem;
+            border: 1px solid rgba(148, 163, 184, 0.26);
+            color: #0f172a;
+            background: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.4rem 0.55rem;
+            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+        }
+        .mobile-nav-link.active {
+            border-color: rgba(128, 225, 66, 0.64);
+            color: #1f4600;
+            background: rgba(152, 251, 89, 0.18);
+        }
+        .mobile-nav-link:hover {
+            border-color: rgba(128, 225, 66, 0.5);
+            color: #1f4600;
+            background: rgba(152, 251, 89, 0.12);
+        }
+        .mobile-menu-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.52rem;
+            margin-bottom: 0.7rem;
+        }
+        .mobile-nav-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.42rem;
+            border-radius: 0.72rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            color: #0f172a;
+            background: #ffffff;
+            transition: transform 140ms ease, filter 140ms ease;
+        }
+        .mobile-nav-action:hover {
+            transform: translateY(-1px);
+            filter: brightness(0.98);
+        }
+        .mobile-nav-action.contact {
+            background: #9be26f;
+            color: #103600;
+            border-color: rgba(59, 130, 0, 0.18);
+        }
+        .mobile-language-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.44rem;
+        }
+        .mobile-lang-option {
+            min-height: 2.35rem;
+            border-radius: 0.72rem;
+            border: 1px solid rgba(15, 23, 42, 0.14);
+            background: #ffffff;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.34rem;
+            font-weight: 700;
+            font-size: 0.78rem;
+            color: #0f172a;
+            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+        }
+        .mobile-lang-option.is-active {
+            border-color: rgba(128, 225, 66, 0.64);
+            color: #1f4600;
+            background: rgba(152, 251, 89, 0.18);
+        }
+        .mobile-lang-option .lang-flag {
+            width: 0.92rem;
+            height: 0.92rem;
+        }
         .parallax-layer {
             will-change: transform;
             --scroll-x: 0px;
@@ -575,8 +709,8 @@
 <span class="nav-link-rail" id="navLinkRail"></span>
 </div>
 </div>
-<div class="flex items-center gap-4 sm:gap-6 lg:gap-8 shrink-0">
-<div class="relative hidden sm:block" id="langMenu">
+<div class="flex items-center gap-3 sm:gap-6 lg:gap-8 shrink-0">
+<div class="relative hidden md:block" id="langMenu">
 <button aria-expanded="false" aria-haspopup="true" class="lang-trigger" id="langButton" type="button">
 <img alt="United Kingdom flag" class="lang-flag" id="langFlag" src="https://flagcdn.com/gb.svg"/>
 <span id="langLabel">EN</span>
@@ -600,9 +734,40 @@
 </button>
 </div>
 </div>
-<a class="hidden sm:inline utility-link" data-i18n="nav_help" href="#about">Help</a>
-<a class="utility-link" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
-<a class="signup-btn magnetic" data-i18n="nav_contact" href="mailto:contact@comexwise.com">Contact us</a>
+<a class="hidden md:inline utility-link" data-i18n="nav_help" href="#about">Help</a>
+<a class="hidden md:inline utility-link" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
+<a class="signup-btn magnetic hidden md:inline-flex" data-i18n="nav_contact" href="mailto:contact@comexwise.com">Contact us</a>
+<button aria-controls="mobileMenuPanel" aria-expanded="false" aria-label="Toggle navigation menu" class="mobile-menu-btn md:hidden" id="mobileMenuButton" type="button">
+<span class="material-symbols-outlined text-[1.25rem]" id="mobileMenuIcon">menu</span>
+</button>
+</div>
+</div>
+<div aria-hidden="true" class="mobile-menu-panel md:hidden" id="mobileMenuPanel">
+<div class="mobile-menu-links">
+<a class="mobile-nav-link section-select active" data-i18n="nav_platform" href="#platform">Platform</a>
+<a class="mobile-nav-link section-select" data-i18n="nav_orders" href="#orders">Orders</a>
+<a class="mobile-nav-link section-select" data-i18n="nav_partners" href="#partners">Partners</a>
+<a class="mobile-nav-link section-select" data-i18n="nav_tracking" href="#tracking">Tracking</a>
+<a class="mobile-nav-link section-select" data-i18n="nav_security" href="#security">Security</a>
+<a class="mobile-nav-link section-select" data-i18n="nav_help" href="#about">Help</a>
+</div>
+<div class="mobile-menu-actions">
+<a class="mobile-nav-action" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
+<a class="mobile-nav-action contact magnetic" data-i18n="nav_contact" href="mailto:contact@comexwise.com">Contact us</a>
+</div>
+<div class="mobile-language-strip" role="menu">
+<button class="mobile-lang-option is-active" data-lang="en" type="button">
+<img alt="United Kingdom flag" class="lang-flag" src="https://flagcdn.com/gb.svg"/>
+<span data-i18n="lang_name_en">English</span>
+</button>
+<button class="mobile-lang-option" data-lang="es" type="button">
+<img alt="Spain flag" class="lang-flag" src="https://flagcdn.com/es.svg"/>
+<span data-i18n="lang_name_es">Spanish</span>
+</button>
+<button class="mobile-lang-option" data-lang="pt" type="button">
+<img alt="Portugal flag" class="lang-flag" src="https://flagcdn.com/pt.svg"/>
+<span data-i18n="lang_name_pt">Portuguese</span>
+</button>
 </div>
 </div>
 </nav>
@@ -1258,6 +1423,10 @@
             const langFlag = document.getElementById("langFlag");
             const langLabel = document.getElementById("langLabel");
             const langOptions = Array.from(document.querySelectorAll(".lang-option"));
+            const mobileLangOptions = Array.from(document.querySelectorAll(".mobile-lang-option"));
+            const mobileMenuButton = document.getElementById("mobileMenuButton");
+            const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+            const mobileMenuIcon = document.getElementById("mobileMenuIcon");
             const apiDocsLink = document.getElementById("apiDocsLink");
             const toastEl = document.getElementById("cwToast");
             const scrollProgress = document.getElementById("scrollProgress");
@@ -1331,6 +1500,24 @@
                 langPanel.classList.add("hidden");
                 langButton.setAttribute("aria-expanded", "false");
             };
+            const closeMobileMenu = () => {
+                if (!mobileMenuPanel || !mobileMenuButton) return;
+                mobileMenuPanel.classList.remove("open");
+                mobileMenuPanel.setAttribute("aria-hidden", "true");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+                if (mobileMenuIcon) {
+                    mobileMenuIcon.textContent = "menu";
+                }
+            };
+            const openMobileMenu = () => {
+                if (!mobileMenuPanel || !mobileMenuButton) return;
+                mobileMenuPanel.classList.add("open");
+                mobileMenuPanel.setAttribute("aria-hidden", "false");
+                mobileMenuButton.setAttribute("aria-expanded", "true");
+                if (mobileMenuIcon) {
+                    mobileMenuIcon.textContent = "close";
+                }
+            };
 
             const applyLocale = (requestedLocale) => {
                 const locale = Object.prototype.hasOwnProperty.call(i18n, requestedLocale) ? requestedLocale : defaultLocale;
@@ -1360,6 +1547,9 @@
                 langOptions.forEach((option) => {
                     option.classList.toggle("is-active", option.dataset.lang === locale);
                 });
+                mobileLangOptions.forEach((option) => {
+                    option.classList.toggle("is-active", option.dataset.lang === locale);
+                });
 
                 document.documentElement.lang = selectedMeta.htmlLang;
                 currentLocale = locale;
@@ -1386,26 +1576,49 @@
                 });
             }
 
-            langOptions.forEach((option) => {
+            if (mobileMenuButton && mobileMenuPanel) {
+                mobileMenuButton.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    const willOpen = !mobileMenuPanel.classList.contains("open");
+                    if (willOpen) {
+                        openMobileMenu();
+                    } else {
+                        closeMobileMenu();
+                    }
+                });
+            }
+
+            [...langOptions, ...mobileLangOptions].forEach((option) => {
                 option.addEventListener("click", () => {
                     const locale = option.dataset.lang || defaultLocale;
                     applyLocale(locale);
                     closeLangPanel();
+                    if (mobileMenuPanel && mobileMenuPanel.classList.contains("open")) {
+                        closeMobileMenu();
+                    }
                 });
             });
 
             document.addEventListener("click", (event) => {
-                if (!langMenu || !langPanel || !langButton) return;
                 const target = event.target;
                 if (!(target instanceof Node)) return;
-                if (!langMenu.contains(target)) {
+                if (langMenu && langPanel && langButton && !langMenu.contains(target)) {
                     closeLangPanel();
+                }
+                if (mobileMenuPanel && mobileMenuButton && topNav && !topNav.contains(target)) {
+                    closeMobileMenu();
                 }
             });
 
             document.addEventListener("keydown", (event) => {
                 if (event.key === "Escape") {
                     closeLangPanel();
+                    closeMobileMenu();
+                }
+            });
+            window.addEventListener("resize", () => {
+                if (window.innerWidth >= 768) {
+                    closeMobileMenu();
                 }
             });
 
@@ -1584,8 +1797,18 @@
                     if (!target) return;
                     event.preventDefault();
                     scrollToSection(target);
+                    closeMobileMenu();
                 });
             });
+            if (mobileMenuPanel) {
+                mobileMenuPanel.querySelectorAll("a[href]").forEach((link) => {
+                    if (!(link instanceof HTMLElement)) return;
+                    if ((link.getAttribute("href") || "").startsWith("#")) return;
+                    link.addEventListener("click", () => {
+                        closeMobileMenu();
+                    });
+                });
+            }
 
             sectionDotButtons.forEach((dot) => {
                 dot.addEventListener("click", () => {
