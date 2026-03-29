@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ComexWise | Logistics Orchestration Platform</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Sora:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -61,9 +61,10 @@
               "surface-container-lowest": "#ffffff"
             },
             fontFamily: {
-              "headline": ["Inter"],
-              "body": ["Inter"],
-              "label": ["Inter"]
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"],
+              "brand": ["Sora", "Manrope", "sans-serif"]
             },
             borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
           },
@@ -71,6 +72,12 @@
       }
     </script>
 <style>
+        :root {
+            --cw-reveal-ms: 650ms;
+            --cw-pre-reveal-y: 28px;
+            --cw-reveal-y: 24px;
+            --cw-glide-lift: 8px;
+        }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
@@ -99,24 +106,85 @@
         .top-link {
             color: #171717;
             font-weight: 700;
-            font-size: 1.05rem;
-            transition: color 150ms ease;
+            font-size: 1rem;
+            border-radius: 9999px;
+            padding: 0.45rem 0.9rem;
+            transition: color 150ms ease, background-color 150ms ease, transform 160ms ease;
         }
         .top-link:hover {
             color: #2f6c00;
+            background: rgba(47, 108, 0, 0.08);
+            transform: translateY(-1px);
+        }
+        .top-link.active {
+            color: #1f4600;
+            background: rgba(152, 251, 89, 0.38);
         }
         .utility-link {
             color: #18181b;
             font-weight: 600;
             font-size: 1.1rem;
         }
-        .lang-dot {
-            width: 1.35rem;
-            height: 1.35rem;
+        .lang-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: #111827;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid rgba(17, 24, 39, 0.14);
             border-radius: 9999px;
+            background: #ffffff;
+            padding: 0.42rem 0.72rem;
+        }
+        .lang-trigger:hover {
+            background: #f8fafc;
+        }
+        .lang-panel {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 0.55rem);
+            width: 12.5rem;
+            border: 1px solid rgba(17, 24, 39, 0.12);
+            border-radius: 0.85rem;
+            background: #ffffff;
+            box-shadow: 0 20px 42px -26px rgba(15, 23, 42, 0.5);
+            padding: 0.35rem;
+        }
+        .lang-option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            border-radius: 0.65rem;
+            padding: 0.55rem 0.55rem;
+            font-size: 0.92rem;
+            color: #111827;
+            font-weight: 600;
+            text-align: left;
+        }
+        .lang-option:hover {
+            background: #f1f5f9;
+        }
+        .lang-option.is-active {
+            background: rgba(152, 251, 89, 0.34);
+            color: #1f4600;
+        }
+        .lang-flag {
+            width: 1.12rem;
+            height: 1.12rem;
+            border-radius: 9999px;
+            object-fit: cover;
             border: 1px solid rgba(0, 0, 0, 0.08);
-            background: linear-gradient(to bottom, #cf1020 0 30%, #ffd447 30% 70%, #cf1020 70% 100%);
-            display: inline-block;
+            flex-shrink: 0;
+        }
+        .lang-code {
+            margin-left: auto;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: #6b7280;
+            font-weight: 700;
+            text-transform: uppercase;
         }
         .signup-btn {
             background: #9be26f;
@@ -129,54 +197,443 @@
         .signup-btn:hover {
             filter: brightness(0.95);
         }
+        .brand-wordmark {
+            font-family: "Sora", "Manrope", sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #123300;
+        }
+        .parallax-layer {
+            will-change: transform;
+            --scroll-x: 0px;
+            --scroll-y: 0px;
+            --mouse-x: 0px;
+            --mouse-y: 0px;
+            transform: translate3d(calc(var(--scroll-x) + var(--mouse-x)), calc(var(--scroll-y) + var(--mouse-y)), 0);
+        }
+        .reveal-slide {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+            transition: opacity var(--cw-reveal-ms) ease, transform var(--cw-reveal-ms) cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-slide.pre-reveal {
+            opacity: 0;
+            transform: translate3d(0, var(--cw-pre-reveal-y), 0) scale(0.99);
+        }
+        .reveal-slide.is-visible {
+            animation: reveal-in var(--cw-reveal-ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes reveal-in {
+            from {
+                opacity: 0;
+                transform: translate3d(0, var(--cw-reveal-y), 0) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+        .glide-hover {
+            transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms ease;
+        }
+        .glide-hover:hover {
+            transform: translateY(calc(var(--cw-glide-lift) * -1));
+            box-shadow: 0 24px 45px -28px rgba(15, 23, 42, 0.45);
+        }
+        .hero-title {
+            font-family: "Inter", "Manrope", sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.035em;
+        }
+        .hero-emphasis {
+            color: #80e142;
+            text-shadow: none;
+        }
+        .cta-glow {
+            box-shadow: 0 18px 40px -22px rgba(125, 222, 63, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+        }
+        .cta-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 26px 48px -24px rgba(125, 222, 63, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+            filter: saturate(1.08);
+        }
+        .aurora-layer {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            display: none;
+        }
+        .aurora-blob {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(35px);
+            opacity: 0.46;
+            will-change: transform;
+        }
+        .aurora-blob.a {
+            width: 34rem;
+            height: 34rem;
+            left: -8rem;
+            top: -12rem;
+            background: radial-gradient(circle at 30% 30%, rgba(125, 222, 63, 0.65), rgba(125, 222, 63, 0));
+            animation: aurora-float-a 11s ease-in-out infinite alternate;
+        }
+        .aurora-blob.b {
+            width: 28rem;
+            height: 28rem;
+            right: -7rem;
+            bottom: -9rem;
+            background: radial-gradient(circle at 60% 40%, rgba(56, 211, 159, 0.58), rgba(56, 211, 159, 0));
+            animation: aurora-float-b 13s ease-in-out infinite alternate;
+        }
+        .hero-beam {
+            position: absolute;
+            width: 56rem;
+            height: 14rem;
+            right: -8rem;
+            top: 22%;
+            background: linear-gradient(100deg, rgba(111, 240, 77, 0.23) 0%, rgba(56, 211, 159, 0.14) 55%, rgba(111, 240, 77, 0) 100%);
+            filter: blur(18px);
+            transform: rotate(-8deg);
+            pointer-events: none;
+            display: none;
+        }
+        .interactive-surface {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 250ms ease, box-shadow 250ms ease;
+        }
+        .interactive-surface::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(152, 251, 89, 0.26), transparent 62%);
+            opacity: 0;
+            transition: opacity 220ms ease;
+            pointer-events: none;
+        }
+        .interactive-surface:hover::after {
+            opacity: 1;
+        }
+        .interactive-section {
+            position: relative;
+            transition: transform 420ms ease, filter 420ms ease;
+        }
+        .interactive-section::before {
+            content: "";
+            position: absolute;
+            left: 5%;
+            top: 0;
+            width: 90%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(125, 222, 63, 0), rgba(125, 222, 63, 0.78), rgba(125, 222, 63, 0));
+            opacity: 0;
+            transform: scaleX(0.7);
+            transition: opacity 260ms ease, transform 260ms ease;
+            pointer-events: none;
+        }
+        .interactive-section.section-live::before {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .interactive-section.section-live {
+            filter: none;
+        }
+        .magnetic {
+            transition: transform 220ms ease, box-shadow 220ms ease;
+            will-change: transform;
+        }
+        #topNav {
+            transition: top 260ms ease, left 260ms ease, right 260ms ease, border-radius 260ms ease, background-color 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+        }
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(10px);
+            border-color: rgba(113, 113, 122, 0.34);
+            box-shadow: 0 16px 30px -24px rgba(15, 23, 42, 0.45);
+        }
+        #topNav.nav-scrolled {
+            top: 0.62rem;
+            left: 0.68rem;
+            right: 0.68rem;
+            border-radius: 1rem;
+        }
+        @media (min-width: 1024px) {
+            #topNav.nav-scrolled {
+                top: 0.9rem;
+                left: 1.45rem;
+                right: 1.45rem;
+                border-radius: 1.1rem;
+            }
+        }
+        .nav-inner {
+            transition: height 240ms ease, padding 240ms ease;
+        }
+        .nav-inner.nav-inner-compact {
+            height: 72px;
+        }
+        .nav-link-rail {
+            position: absolute;
+            left: 0;
+            bottom: -0.2rem;
+            width: 0;
+            height: 2px;
+            border-radius: 9999px;
+            opacity: 0;
+            transform: translateX(0);
+            background: linear-gradient(90deg, #7dde3f 0%, #38d39f 100%);
+            box-shadow: 0 0 14px rgba(125, 222, 63, 0.64);
+            transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), width 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease;
+            pointer-events: none;
+        }
+        .nav-link-rail.visible {
+            opacity: 1;
+        }
+        .progress-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 80;
+            pointer-events: none;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #7dde3f 0%, #38d39f 100%);
+            box-shadow: 0 0 14px rgba(125, 222, 63, 0.78);
+        }
+        .section-dots {
+            position: fixed;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 45;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.78rem;
+            padding: 0.9rem 0.55rem;
+            border-radius: 9999px;
+            background: rgba(17, 24, 39, 0.25);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        @media (min-width: 1280px) {
+            .section-dots {
+                display: flex;
+            }
+        }
+        .section-dot {
+            width: 0.52rem;
+            height: 0.52rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.44);
+            border: 1px solid rgba(255, 255, 255, 0.42);
+            position: relative;
+            transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+        }
+        .section-dot:hover {
+            transform: scale(1.24);
+            background: rgba(218, 255, 195, 0.98);
+            border-color: rgba(195, 255, 160, 0.95);
+        }
+        .section-dot::after {
+            content: attr(data-label);
+            position: absolute;
+            right: calc(100% + 0.7rem);
+            top: 50%;
+            transform: translateY(-50%) translateX(0.5rem);
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #ecfdf5;
+            padding: 0.33rem 0.46rem;
+            border-radius: 0.42rem;
+            background: rgba(2, 6, 23, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: opacity 160ms ease, transform 160ms ease;
+        }
+        .section-dot:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+        .section-dot.is-past {
+            background: rgba(152, 251, 89, 0.68);
+            border-color: rgba(210, 255, 183, 0.8);
+        }
+        .section-dot.is-active {
+            transform: scale(1.52);
+            background: #98fb59;
+            border-color: #d8ffc0;
+            box-shadow: 0 0 16px rgba(152, 251, 89, 0.85);
+        }
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 14%, rgba(150, 251, 90, 0.16) 0%, rgba(150, 251, 90, 0) 46%),
+                radial-gradient(circle at 84% 80%, rgba(5, 18, 8, 0.58) 0%, rgba(5, 18, 8, 0.04) 52%),
+                radial-gradient(circle at 50% 56%, rgba(7, 16, 28, 0) 0%, rgba(7, 16, 28, 0.52) 82%, rgba(4, 10, 18, 0.74) 100%);
+            pointer-events: none;
+            mix-blend-mode: normal;
+        }
+        .hero-grid {
+            position: absolute;
+            inset: -10%;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.038) 1px, transparent 1px);
+            background-size: 54px 54px;
+            opacity: 0.16;
+            mask-image: radial-gradient(circle at 50% 46%, rgba(0, 0, 0, 0.95) 28%, rgba(0, 0, 0, 0) 84%);
+        }
+        .hero-sheen {
+            position: absolute;
+            width: 56rem;
+            height: 13rem;
+            right: -11rem;
+            top: 16%;
+            transform: rotate(-10deg);
+            pointer-events: none;
+            opacity: 0.34;
+            background: linear-gradient(95deg, rgba(125, 222, 63, 0) 0%, rgba(125, 222, 63, 0.24) 38%, rgba(56, 211, 159, 0.22) 64%, rgba(56, 211, 159, 0) 100%);
+            filter: blur(20px);
+        }
+        @media (max-width: 1023px) {
+            .hero-grid {
+                opacity: 0.1;
+            }
+            .hero-sheen {
+                opacity: 0.24;
+            }
+        }
+        .toast {
+            position: fixed;
+            bottom: 1.3rem;
+            right: 1.3rem;
+            max-width: 20rem;
+            background: #18181b;
+            color: #f4f4f5;
+            padding: 0.8rem 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.8rem;
+            box-shadow: 0 20px 38px -24px rgba(0, 0, 0, 0.75);
+            transform: translateY(18px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 220ms ease, transform 220ms ease;
+            z-index: 90;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes aurora-float-a {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(3.5rem, 2.3rem, 0) scale(1.08); }
+        }
+        @keyframes aurora-float-b {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(-3rem, -2.2rem, 0) scale(1.12); }
+        }
     </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<div class="progress-track"><div class="progress-bar" id="scrollProgress"></div></div>
 <!-- TopNavBar -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-white border-b border-zinc-200/80 shadow-sm">
-<div class="max-w-screen-2xl mx-auto px-5 sm:px-10 h-[84px] flex items-center justify-between gap-6">
+<nav class="fixed top-0 inset-x-0 z-50 bg-white border-b border-zinc-200/80 shadow-sm" id="topNav">
+<div class="nav-inner max-w-screen-2xl mx-auto px-5 sm:px-10 h-[84px] flex items-center justify-between gap-6" id="topNavInner">
 <div class="flex items-center gap-8 lg:gap-12 min-w-0">
-<a class="flex items-center shrink-0" href="#">
-<img alt="ComexWise Logo" class="h-12 w-auto object-contain" decoding="async" loading="eager" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='./ComexWise_Light_800_Transparent.png';return;}this.onerror=null;this.src='./comW.png';" src="./comW_new.png"/>
+<a class="flex items-center gap-3 shrink-0" href="#top">
+<img alt="ComexWise Logo" class="h-11 w-11 object-contain" decoding="async" loading="eager" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='./comW.png';return;}this.onerror=null;" src="./comW_new.png"/>
+<span class="brand-wordmark">ComexWise</span>
 </a>
-<div class="hidden md:flex items-center gap-8 lg:gap-10">
-<a class="top-link" href="#about">Personal</a>
-<a class="top-link" href="#partners">Business</a>
-<a class="top-link" href="#platform">Platform</a>
+<div class="hidden md:flex items-center gap-2 lg:gap-3 relative pb-1" id="desktopNavLinks">
+<a class="top-link section-select active" data-i18n="nav_platform" href="#platform">Platform</a>
+<a class="top-link section-select" data-i18n="nav_orders" href="#orders">Orders</a>
+<a class="top-link section-select" data-i18n="nav_partners" href="#partners">Partners</a>
+<a class="top-link section-select" data-i18n="nav_tracking" href="#tracking">Tracking</a>
+<a class="top-link section-select" data-i18n="nav_security" href="#security">Security</a>
+<span class="nav-link-rail" id="navLinkRail"></span>
 </div>
 </div>
 <div class="flex items-center gap-4 sm:gap-6 lg:gap-8 shrink-0">
-<button class="hidden sm:flex items-center gap-2 text-zinc-900 font-semibold text-[1.1rem]">
-<span aria-hidden="true" class="lang-dot"></span>
-<span>EN</span>
+<div class="relative hidden sm:block" id="langMenu">
+<button aria-expanded="false" aria-haspopup="true" class="lang-trigger" id="langButton" type="button">
+<img alt="United Kingdom flag" class="lang-flag" id="langFlag" src="https://flagcdn.com/gb.svg"/>
+<span id="langLabel">EN</span>
+<span class="material-symbols-outlined text-[1rem]">expand_more</span>
 </button>
-<a class="hidden sm:inline utility-link" href="#about">Help</a>
-<button class="utility-link">Log in</button>
-<button class="signup-btn">Sign up</button>
+<div class="lang-panel hidden" id="langPanel" role="menu">
+<button class="lang-option is-active" data-flag="https://flagcdn.com/gb.svg" data-lang="en" type="button">
+<img alt="United Kingdom flag" class="lang-flag" src="https://flagcdn.com/gb.svg"/>
+<span data-i18n="lang_name_en">English</span>
+<span class="lang-code">EN</span>
+</button>
+<button class="lang-option" data-flag="https://flagcdn.com/es.svg" data-lang="es" type="button">
+<img alt="Spain flag" class="lang-flag" src="https://flagcdn.com/es.svg"/>
+<span data-i18n="lang_name_es">Spanish</span>
+<span class="lang-code">ES</span>
+</button>
+<button class="lang-option" data-flag="https://flagcdn.com/pt.svg" data-lang="pt" type="button">
+<img alt="Portugal flag" class="lang-flag" src="https://flagcdn.com/pt.svg"/>
+<span data-i18n="lang_name_pt">Portuguese</span>
+<span class="lang-code">PT</span>
+</button>
+</div>
+</div>
+<a class="hidden sm:inline utility-link" data-i18n="nav_help" href="#about">Help</a>
+<a class="utility-link" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
+<a class="signup-btn magnetic" data-i18n="nav_contact" href="mailto:contact@comexwise.com">Contact us</a>
 </div>
 </div>
 </nav>
+<aside aria-label="Section navigation" class="section-dots" id="sectionDots">
+<button aria-label="Platform section" class="section-dot is-active" data-label="Platform" data-target="#platform" type="button"></button>
+<button aria-label="Orders section" class="section-dot" data-label="Orders" data-target="#orders" type="button"></button>
+<button aria-label="Partners section" class="section-dot" data-label="Partners" data-target="#partners" type="button"></button>
+<button aria-label="Tracking section" class="section-dot" data-label="Tracking" data-target="#tracking" type="button"></button>
+<button aria-label="Security section" class="section-dot" data-label="Security" data-target="#security" type="button"></button>
+<button aria-label="About section" class="section-dot" data-label="About" data-target="#about" type="button"></button>
+</aside>
 <!-- Hero Section: Immersive Full-Width Parallax -->
-<header class="relative min-h-screen flex items-center pt-24 overflow-hidden">
-<img alt="Container ship at sea" class="absolute inset-0 w-full h-full object-cover" src="ship.jpg"/>
-<div class="absolute inset-0 bg-black/50"></div>
-<div class="max-w-7xl mx-auto px-6 w-full relative z-10 text-center lg:text-left">
+<header class="relative min-h-screen flex items-center pt-24 overflow-hidden" id="top">
+<img alt="Container ship at sea" class="absolute inset-0 w-full h-full object-cover parallax-layer brightness-[0.50] contrast-[1.02] saturate-[0.92]" data-mouse-parallax="0.024" data-parallax-speed="0.28" src="ship.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/72 via-black/60 to-black/68 parallax-layer" data-mouse-parallax="0.012" data-parallax-speed="0.1"></div>
+<div class="hero-vignette parallax-layer" data-mouse-parallax="0.012" data-parallax-speed="0.08"></div>
+<div class="hero-grid parallax-layer" data-mouse-parallax="0.015" data-parallax-speed="-0.06"></div>
+<div class="hero-sheen parallax-layer" data-mouse-parallax="0.02" data-parallax-speed="0.2"></div>
+<div class="max-w-7xl mx-auto px-6 w-full relative z-10 text-center lg:text-left reveal-slide" data-mouse-parallax="0.015">
 <div class="max-w-4xl lg:editorial-margin">
-<span class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase rounded mb-6">The Future of Logistics</span>
-<h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white leading-[1.05] mb-8 text-shadow-md">
-                Manage your entire logistics operation <span class="text-primary-container italic">across all partners</span> in one platform.
+<span class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase rounded mb-6 parallax-layer" data-i18n="hero_badge" data-mouse-parallax="0.05" data-parallax-speed="0.06">The Future of Logistics</span>
+<h1 class="hero-title text-5xl md:text-7xl lg:text-8xl tracking-tighter text-white leading-[1.05] mb-8 text-shadow-md parallax-layer" data-i18n-html="hero_title" data-mouse-parallax="0.038" data-parallax-speed="0.03">
+                Manage your entire logistics operation <span class="hero-emphasis italic">across all partners</span> in one platform.
             </h1>
-<p class="text-xl md:text-2xl text-zinc-100 max-w-2xl mb-12 leading-relaxed text-shadow-sm">
+<p class="text-xl md:text-2xl text-zinc-100 max-w-2xl mb-12 leading-relaxed text-shadow-sm parallax-layer" data-i18n="hero_subtitle" data-mouse-parallax="0.03" data-parallax-speed="0.02">
                 No emails. No spreadsheets. No manual coordination. Orchestrate your global supply chain with mathematical precision and fluid automation.
             </p>
-<div class="flex flex-wrap gap-4 justify-center lg:justify-start">
-<button class="px-10 py-5 bg-primary text-on-primary rounded-md font-bold text-xl hover:shadow-2xl hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all flex items-center gap-3 active:scale-95">
-                    Launch Dashboard
+<div class="flex flex-wrap gap-4 justify-center lg:justify-start parallax-layer" data-mouse-parallax="0.024" data-parallax-speed="0.015">
+<a class="px-10 py-5 bg-primary text-on-primary rounded-md font-bold text-xl hover:shadow-2xl hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all flex items-center gap-3 active:scale-95 cta-glow magnetic" href="https://comexwise.onrender.com/" rel="noopener">
+<span data-i18n="hero_cta_primary">Launch Dashboard</span>
                     <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-<button class="px-10 py-5 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-md font-bold text-xl hover:bg-white/20 transition-all active:scale-95">
+</a>
+<a class="px-10 py-5 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-md font-bold text-xl hover:bg-white/20 transition-all active:scale-95 cta-glow magnetic" data-i18n="hero_cta_secondary" href="mailto:contact@comexwise.com">
                     View Demo
-                </button>
+                </a>
 </div>
 </div>
 </div>
@@ -186,32 +643,32 @@
 <div class="max-w-7xl mx-auto px-6">
 <div class="flex flex-col lg:flex-row justify-between items-end gap-8 mb-24">
 <div class="max-w-2xl">
-<h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">The logistics operating system</h2>
-<p class="text-lg text-on-surface-variant">We don't just track shipments; we orchestrate ecosystems. ComexWise is built to dissolve the friction between disparate systems and fragmented communications.</p>
+<h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6" data-i18n="platform_title">The logistics operating system</h2>
+<p class="text-lg text-on-surface-variant" data-i18n="platform_desc">We don't just track shipments; we orchestrate ecosystems. ComexWise is built to dissolve the friction between disparate systems and fragmented communications.</p>
 </div>
 <div class="flex items-center gap-2 text-primary font-bold tracking-tight mb-2">
 <span class="text-5xl">10x</span>
-<span class="text-sm uppercase leading-none text-on-surface-variant">Operational<br/>Efficiency</span>
+<span class="text-sm uppercase leading-none text-on-surface-variant" data-i18n-html="platform_efficiency">Operational<br/>Efficiency</span>
 </div>
 </div>
 <div class="grid md:grid-cols-3 gap-12">
 <!-- Bento Card 1 -->
 <div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
 <span class="material-symbols-outlined text-4xl text-primary mb-6">hub</span>
-<h3 class="text-xl font-bold mb-4">Centralized Command</h3>
-<p class="text-on-surface-variant text-sm leading-relaxed">A single source of truth for every stakeholder, from procurement to final mile delivery.</p>
+<h3 class="text-xl font-bold mb-4" data-i18n="platform_card1_title">Centralized Command</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed" data-i18n="platform_card1_desc">A single source of truth for every stakeholder, from procurement to final mile delivery.</p>
 </div>
 <!-- Bento Card 2 -->
 <div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
 <span class="material-symbols-outlined text-4xl text-primary mb-6">automation</span>
-<h3 class="text-xl font-bold mb-4">Fluid Workflows</h3>
-<p class="text-on-surface-variant text-sm leading-relaxed">Automated document handling and status updates that move at the speed of your business.</p>
+<h3 class="text-xl font-bold mb-4" data-i18n="platform_card2_title">Fluid Workflows</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed" data-i18n="platform_card2_desc">Automated document handling and status updates that move at the speed of your business.</p>
 </div>
 <!-- Bento Card 3 -->
 <div class="p-8 bg-surface-container-low rounded-xl group hover:bg-surface-bright transition-all border border-outline-variant/10">
 <span class="material-symbols-outlined text-4xl text-primary mb-6">analytics</span>
-<h3 class="text-xl font-bold mb-4">Predictive Intelligence</h3>
-<p class="text-on-surface-variant text-sm leading-relaxed">Identify bottlenecks before they become delays with AI-driven forecasting.</p>
+<h3 class="text-xl font-bold mb-4" data-i18n="platform_card3_title">Predictive Intelligence</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed" data-i18n="platform_card3_desc">Identify bottlenecks before they become delays with AI-driven forecasting.</p>
 </div>
 </div>
 </div>
@@ -225,29 +682,29 @@
 <div class="relative pl-12">
 <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-primary-container flex items-center justify-center font-bold text-on-primary-container">1</div>
 <div class="absolute left-4 top-8 bottom-[-48px] w-px bg-outline-variant/30"></div>
-<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Import &amp; Export Initiation</h4>
-<p class="text-on-surface-variant">Digitize commercial invoices and packing lists instantly. AI extracts critical data to prepopulate customs declarations.</p>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide" data-i18n="orders_step1_title">Import &amp; Export Initiation</h4>
+<p class="text-on-surface-variant" data-i18n="orders_step1_desc">Digitize commercial invoices and packing lists instantly. AI extracts critical data to prepopulate customs declarations.</p>
 </div>
 <div class="relative pl-12">
 <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-on-primary">2</div>
 <div class="absolute left-4 top-8 bottom-[-48px] w-px bg-outline-variant/30"></div>
-<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Dynamic Allocation</h4>
-<p class="text-on-surface-variant">Route orders through our Multi-Forwarder engine to optimize for cost, speed, or carrier reliability.</p>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide" data-i18n="orders_step2_title">Dynamic Allocation</h4>
+<p class="text-on-surface-variant" data-i18n="orders_step2_desc">Route orders through our Multi-Forwarder engine to optimize for cost, speed, or carrier reliability.</p>
 </div>
 <div class="relative pl-12">
 <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-secondary-container">3</div>
-<h4 class="text-lg font-bold mb-2 uppercase tracking-wide">Full Execution Cycle</h4>
-<p class="text-on-surface-variant">Real-time collaboration with carriers and customs brokers until the final POD is secured.</p>
+<h4 class="text-lg font-bold mb-2 uppercase tracking-wide" data-i18n="orders_step3_title">Full Execution Cycle</h4>
+<p class="text-on-surface-variant" data-i18n="orders_step3_desc">Real-time collaboration with carriers and customs brokers until the final POD is secured.</p>
 </div>
 </div>
 </div>
 <div class="order-1 lg:order-2">
-<h2 class="text-4xl font-bold tracking-tight mb-8">Precision Order Management</h2>
-<p class="text-lg text-on-surface-variant mb-12">Transform your import/export process into a seamless digital stream. No more "where is the document?" calls.</p>
+<h2 class="text-4xl font-bold tracking-tight mb-8" data-i18n="orders_title">Precision Order Management</h2>
+<p class="text-lg text-on-surface-variant mb-12" data-i18n="orders_desc">Transform your import/export process into a seamless digital stream. No more "where is the document?" calls.</p>
 <div class="relative rounded-2xl overflow-hidden shadow-2xl">
 <img alt="Massive cargo aircraft being loaded" class="w-full aspect-[4/5] object-cover hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHt261BdbHbr4_48ZWkRXGFQ5vOU8Yx0hZkACJkGPPIEZAAPisfOaIDs8Rxw1YzeWvFAjUKw5pr1R-6Uq9QUaH5iG6HqhrellMOkVmCp-CS5-nHhPICf1JahEyA5keSZw4D9A45PTvOYgDvEZdYzeXedzxTDlUaIpz1mY4mV2XXKsK7d_gRAGHam2XDXGFj5WNsup2TYLxdJiYcxPxpUv2NYjuz_QJyXTPmwaYmr13wJ414mdkGvkWNYi1Vf9pTxVhSqLUg3yuhB0"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-<p class="text-white text-sm font-bold tracking-widest uppercase">Air Freight Efficiency</p>
+<p class="text-white text-sm font-bold tracking-widest uppercase" data-i18n="orders_image_tag">Air Freight Efficiency</p>
 </div>
 </div>
 </div>
@@ -259,8 +716,8 @@
 <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
 <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 relative z-10">
 <div class="bg-surface-container-lowest/70 backdrop-blur-xl p-12 rounded-3xl shadow-xl border border-white/50">
-<h2 class="text-3xl font-bold mb-8">Integration Hub</h2>
-<p class="text-on-surface-variant mb-10">We speak the language of your enterprise. Seamlessly connect your core systems without complex middleware.</p>
+<h2 class="text-3xl font-bold mb-8" data-i18n="partners_hub_title">Integration Hub</h2>
+<p class="text-on-surface-variant mb-10" data-i18n="partners_hub_desc">We speak the language of your enterprise. Seamlessly connect your core systems without complex middleware.</p>
 <div class="grid grid-cols-3 gap-6 opacity-80">
 <div class="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all">
 <div class="w-16 h-16 bg-white flex items-center justify-center rounded-xl shadow-sm font-black text-xs text-zinc-400">SAP</div>
@@ -274,20 +731,20 @@
 </div>
 </div>
 <div class="flex flex-col justify-center" id="integration">
-<h2 class="text-3xl font-bold mb-6">Partner Portal</h2>
-<p class="text-on-surface-variant mb-8">Collaboration is the soul of ComexWise. Invite your entire supply chain ecosystem into a shared workspace.</p>
+<h2 class="text-3xl font-bold mb-6" data-i18n="partners_portal_title">Partner Portal</h2>
+<p class="text-on-surface-variant mb-8" data-i18n="partners_portal_desc">Collaboration is the soul of ComexWise. Invite your entire supply chain ecosystem into a shared workspace.</p>
 <ul class="space-y-4">
 <li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
 <span class="material-symbols-outlined text-primary">check_circle</span>
-                    Ocean &amp; Air Carriers
+<span data-i18n="partners_li1">Ocean &amp; Air Carriers</span>
                 </li>
 <li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
 <span class="material-symbols-outlined text-primary">check_circle</span>
-                    Customs Brokers
+<span data-i18n="partners_li2">Customs Brokers</span>
                 </li>
 <li class="flex items-center gap-4 text-sm font-semibold text-on-surface uppercase tracking-widest p-4 bg-white/60 rounded-lg backdrop-blur shadow-sm border border-white">
 <span class="material-symbols-outlined text-primary">check_circle</span>
-                    Domestic Trucking Partners
+<span data-i18n="partners_li3">Domestic Trucking Partners</span>
                 </li>
 </ul>
 </div>
@@ -299,17 +756,17 @@
 <div class="grid lg:grid-cols-2 gap-24">
 <div>
 <span class="material-symbols-outlined text-5xl text-primary mb-8">location_searching</span>
-<h2 class="text-4xl font-bold tracking-tight mb-8">Real-time Track &amp; Trace</h2>
-<p class="text-lg text-on-surface-variant mb-12">Integrated directly with ocean and air carrier telematics. Know exactly where your cargo isâ€”no manual refresh required.</p>
+<h2 class="text-4xl font-bold tracking-tight mb-8" data-i18n="tracking_title">Real-time Track &amp; Trace</h2>
+<p class="text-lg text-on-surface-variant mb-12" data-i18n="tracking_desc">Integrated directly with ocean and air carrier telematics. Know exactly where your cargo is-no manual refresh required.</p>
 <div class="flex flex-col gap-6 mb-12">
 <div class="flex items-center justify-between p-6 bg-surface-container-low rounded-xl">
 <div>
-<p class="text-xs font-bold uppercase text-outline mb-1">Current Vessel</p>
+<p class="text-xs font-bold uppercase text-outline mb-1" data-i18n="tracking_current_vessel">Current Vessel</p>
 <p class="font-bold">MAERSK HANOI</p>
 </div>
 <div class="text-right">
-<p class="text-xs font-bold uppercase text-primary mb-1">Status</p>
-<p class="font-bold">In Transit</p>
+<p class="text-xs font-bold uppercase text-primary mb-1" data-i18n="tracking_status">Status</p>
+<p class="font-bold" data-i18n="tracking_status_value">In Transit</p>
 </div>
 </div>
 <div class="w-full h-2 bg-outline-variant/20 rounded-full overflow-hidden">
@@ -324,11 +781,11 @@
 </div>
 <div class="relative z-10">
 <span class="material-symbols-outlined text-7xl text-primary-container mb-8">psychology</span>
-<h2 class="text-3xl font-bold mb-6 text-primary-container">AI &amp; Automation</h2>
-<p class="text-surface-variant mb-10 leading-relaxed text-lg">Stop digging through reports. Query your logistics data using natural language. "Show me all delayed shipments in the Pacific route" or "Predict which containers will miss the customs window."</p>
+<h2 class="text-3xl font-bold mb-6 text-primary-container" data-i18n="ai_title">AI &amp; Automation</h2>
+<p class="text-surface-variant mb-10 leading-relaxed text-lg" data-i18n="ai_desc">Stop digging through reports. Query your logistics data using natural language. "Show me all delayed shipments in the Pacific route" or "Predict which containers will miss the customs window."</p>
 </div>
 <div class="relative z-10 p-4 bg-white/10 rounded-xl font-mono text-sm border border-white/5 backdrop-blur">
-<span class="text-primary-container">Prompt:</span> Analyze route efficiency for Q3...
+<span class="text-primary-container" data-i18n="ai_prompt_label">Prompt:</span> <span data-i18n="ai_prompt_text">Analyze route efficiency for Q3...</span>
                 </div>
 </div>
 </div>
@@ -338,22 +795,22 @@
 <section class="py-32 bg-surface-container-low">
 <div class="max-w-7xl mx-auto px-6">
 <div class="text-center max-w-3xl mx-auto mb-20">
-<h2 class="text-4xl font-bold tracking-tight mb-6">Actionable Analytics</h2>
-<p class="text-on-surface-variant">From high-level KPI dashboards to granular cost-per-kg tracking, we give you the data to negotiate better and move faster.</p>
+<h2 class="text-4xl font-bold tracking-tight mb-6" data-i18n="analytics_title">Actionable Analytics</h2>
+<p class="text-on-surface-variant" data-i18n="analytics_desc">From high-level KPI dashboards to granular cost-per-kg tracking, we give you the data to negotiate better and move faster.</p>
 </div>
 <div class="grid md:grid-cols-2 gap-12">
 <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant/10" id="analytics">
 <h3 class="font-bold text-xl mb-6 flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">dashboard</span>
-                    Performance KPI
+                    <span data-i18n="analytics_kpi_title">Performance KPI</span>
                 </h3>
 <div class="space-y-6">
 <div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
-<span class="text-on-surface-variant">On-Time Delivery</span>
+<span class="text-on-surface-variant" data-i18n="analytics_kpi_ontime">On-Time Delivery</span>
 <span class="text-2xl font-bold text-primary">94.2%</span>
 </div>
 <div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
-<span class="text-on-surface-variant">Average Lead Time</span>
+<span class="text-on-surface-variant" data-i18n="analytics_kpi_lead">Average Lead Time</span>
 <span class="text-2xl font-bold text-on-surface">18 Days</span>
 </div>
 </div>
@@ -365,10 +822,10 @@
 <div class="relative z-10">
 <h3 class="font-bold text-xl mb-4 flex items-center gap-3">
 <span class="material-symbols-outlined">local_shipping</span>
-                        Road Transport
+                        <span data-i18n="road_title">Road Transport</span>
                     </h3>
-<p class="text-primary-container font-medium mb-6">Seamlessly transition from global ocean freight to domestic road logistics. One platform for the entire journey.</p>
-<button class="bg-on-primary text-primary px-4 py-2 rounded font-bold text-xs uppercase tracking-widest shadow-lg">Explore Logistics</button>
+<p class="text-primary-container font-medium mb-6" data-i18n="road_desc">Seamlessly transition from global ocean freight to domestic road logistics. One platform for the entire journey.</p>
+<button class="bg-on-primary text-primary px-4 py-2 rounded font-bold text-xs uppercase tracking-widest shadow-lg" data-i18n="road_button">Explore Logistics</button>
 </div>
 </div>
 </div>
@@ -382,28 +839,28 @@
 <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent"></div>
 </div>
 <div id="multi-forwarder">
-<h2 class="text-4xl font-bold mb-8">Multi-Forwarder Strategy</h2>
-<p class="text-lg text-on-surface-variant mb-10">Avoid carrier lock-in. ComexWise allows you to implement resilient allocation strategies effortlessly.</p>
+<h2 class="text-4xl font-bold mb-8" data-i18n="multi_title">Multi-Forwarder Strategy</h2>
+<p class="text-lg text-on-surface-variant mb-10" data-i18n="multi_desc">Avoid carrier lock-in. ComexWise allows you to implement resilient allocation strategies effortlessly.</p>
 <div class="space-y-8">
 <div class="flex items-center gap-6">
 <div class="w-16 h-16 rounded-full border-4 border-primary-container flex items-center justify-center font-bold text-xl">50</div>
 <div>
-<p class="font-bold">Primary Carrier</p>
-<p class="text-sm text-on-surface-variant">High volume, negotiated stability.</p>
+<p class="font-bold" data-i18n="multi_primary_title">Primary Carrier</p>
+<p class="text-sm text-on-surface-variant" data-i18n="multi_primary_desc">High volume, negotiated stability.</p>
 </div>
 </div>
 <div class="flex items-center gap-6">
 <div class="w-16 h-16 rounded-full border-4 border-secondary-container flex items-center justify-center font-bold text-xl">30</div>
 <div>
-<p class="font-bold">Secondary Partner</p>
-<p class="text-sm text-on-surface-variant">Regional specialty and overflow support.</p>
+<p class="font-bold" data-i18n="multi_secondary_title">Secondary Partner</p>
+<p class="text-sm text-on-surface-variant" data-i18n="multi_secondary_desc">Regional specialty and overflow support.</p>
 </div>
 </div>
 <div class="flex items-center gap-6">
 <div class="w-16 h-16 rounded-full border-4 border-outline-variant flex items-center justify-center font-bold text-xl">20</div>
 <div>
-<p class="font-bold">Spot Market / Emergency</p>
-<p class="text-sm text-on-surface-variant">Agile response to global disruptions.</p>
+<p class="font-bold" data-i18n="multi_spot_title">Spot Market / Emergency</p>
+<p class="text-sm text-on-surface-variant" data-i18n="multi_spot_desc">Agile response to global disruptions.</p>
 </div>
 </div>
 </div>
@@ -415,19 +872,19 @@
 <div class="max-w-7xl mx-auto px-6">
 <div class="flex flex-col md:flex-row justify-between items-start gap-12">
 <div class="max-w-xl">
-<h2 class="text-4xl font-bold mb-6">Security &amp; Compliance</h2>
-<p class="text-zinc-400 text-lg leading-relaxed">Enterprise-grade security isn't a feature; it's our foundation. We ensure every shipment meets international regulatory standards and data privacy protocols.</p>
+<h2 class="text-4xl font-bold mb-6" data-i18n="security_title">Security &amp; Compliance</h2>
+<p class="text-zinc-400 text-lg leading-relaxed" data-i18n="security_desc">Enterprise-grade security isn't a feature; it's our foundation. We ensure every shipment meets international regulatory standards and data privacy protocols.</p>
 </div>
 <div class="grid grid-cols-2 gap-8">
 <div class="flex flex-col gap-2">
 <span class="material-symbols-outlined text-primary-container text-4xl">lock</span>
-<p class="font-bold">SOC 2 Type II</p>
-<p class="text-xs text-zinc-500 uppercase tracking-widest">Certified Data Security</p>
+<p class="font-bold" data-i18n="security_soc_title">SOC 2 Type II</p>
+<p class="text-xs text-zinc-500 uppercase tracking-widest" data-i18n="security_soc_desc">Certified Data Security</p>
 </div>
 <div class="flex flex-col gap-2">
 <span class="material-symbols-outlined text-primary-container text-4xl">shield</span>
-<p class="font-bold">GDPR Compliant</p>
-<p class="text-xs text-zinc-500 uppercase tracking-widest">Global Privacy Standards</p>
+<p class="font-bold" data-i18n="security_gdpr_title">GDPR Compliant</p>
+<p class="text-xs text-zinc-500 uppercase tracking-widest" data-i18n="security_gdpr_desc">Global Privacy Standards</p>
 </div>
 </div>
 </div>
@@ -437,14 +894,14 @@
 <section class="py-32 bg-surface" id="about">
 <div class="max-w-7xl mx-auto px-6">
 <div class="editorial-margin border-l-4 border-primary-container pl-12 py-8">
-<h2 class="text-3xl font-bold mb-8 italic">The ComexWise Story</h2>
-<p class="text-xl text-on-surface-variant max-w-4xl leading-relaxed mb-12">
-                ComexWise was born from the intersection of deep operational expertise and cutting-edge engineering. Founded by **Carlos Roberto** and **Soubhik Sen**, our mission was simple: to bring the elegance of modern fintech to the grit of global logistics. By combining decades of experience in supply chain management with a vision for total digital transparency, they built a platform that treats logistics not as a series of problems to be solved, but as a symphony to be orchestrated.
+<h2 class="text-3xl font-bold mb-8 italic" data-i18n="about_title">The ComexWise Story</h2>
+<p class="text-xl text-on-surface-variant max-w-4xl leading-relaxed mb-12" data-i18n="about_desc">
+                ComexWise was born from the intersection of deep operational expertise and cutting-edge engineering. Founded by Carlos Roberto and Soubhik Sen, our mission was simple: to bring the elegance of modern fintech to the grit of global logistics. By combining decades of experience in supply chain management with a vision for total digital transparency, they built a platform that treats logistics not as a series of problems to be solved, but as a symphony to be orchestrated.
             </p>
 <div class="flex gap-12 grayscale opacity-60">
-<div class="text-sm font-bold uppercase tracking-widest">Sao Paulo, BR</div>
-<div class="text-sm font-bold uppercase tracking-widest">San Francisco, US</div>
-<div class="text-sm font-bold uppercase tracking-widest">Global Operations</div>
+<div class="text-sm font-bold uppercase tracking-widest" data-i18n="about_loc_1">Sao Paulo, BR</div>
+<div class="text-sm font-bold uppercase tracking-widest" data-i18n="about_loc_2">San Francisco, US</div>
+<div class="text-sm font-bold uppercase tracking-widest" data-i18n="about_loc_3">Global Operations</div>
 </div>
 </div>
 </div>
@@ -453,9 +910,9 @@
 <section class="py-40 parallax-section flex items-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJXJ9tqHFfMsQEpyo5WkWPsunmYxKYLXo0ECRucH8jPn11LsfO3yrW3CB-lftLTeW7XsoxlHEY13ga2NY3ffVhLIg-Wk05grm9MQBPkEf_TiY7nHkzMhS5eeQr-dEPmy_hHUUo7IKKo8XvQOnTwiATYyfZqZoxsSjCeFWwRlNAOGQIjxwMfRvw9uWoG_LHLCNYyxkr1AlSCgDx_jOmWFs4iCdtp5SaikAhfzTBKwt3LSk8XcQW7mAv1yREabaoraT7zbpQw1QgTA4');">
 <div class="absolute inset-0 bg-primary/90"></div>
 <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
-<h2 class="text-4xl md:text-6xl font-bold text-on-primary mb-8 tracking-tighter text-shadow-md">Ready to orchestrate your supply chain?</h2>
-<p class="text-primary-container text-xl mb-12 max-w-2xl mx-auto font-medium text-shadow-sm">Join the leading logistics teams moving the world with ComexWise.</p>
-<button class="px-10 py-5 bg-on-primary text-primary rounded-md font-black text-xl hover:scale-105 transition-transform shadow-2xl">Get Started Today</button>
+<h2 class="text-4xl md:text-6xl font-bold text-on-primary mb-8 tracking-tighter text-shadow-md" data-i18n="cta_title">Ready to orchestrate your supply chain?</h2>
+<p class="text-primary-container text-xl mb-12 max-w-2xl mx-auto font-medium text-shadow-sm" data-i18n="cta_desc">Join the leading logistics teams moving the world with ComexWise.</p>
+<a class="px-10 py-5 bg-on-primary text-primary rounded-md font-black text-xl hover:scale-105 transition-transform shadow-2xl cta-glow magnetic inline-flex items-center justify-center" data-i18n="cta_button" href="mailto:contact@comexwise.com">Get Started Today</a>
 </div>
 </section>
 <!-- Footer -->
@@ -463,35 +920,819 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-between items-start gap-8 max-w-7xl mx-auto">
 <div class="space-y-6">
 <div class="text-lg font-black text-zinc-800 dark:text-zinc-200">ComexWise</div>
-<p class="text-xs text-zinc-500 max-w-xs leading-relaxed uppercase tracking-widest font-semibold">
+<p class="text-xs text-zinc-500 max-w-xs leading-relaxed uppercase tracking-widest font-semibold" data-i18n="footer_tagline">
                 The Logistics Operating System for the Modern Enterprise.
             </p>
 </div>
 <div class="grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-24 font-sans text-xs uppercase tracking-widest font-semibold">
 <div class="flex flex-col gap-4">
-<span class="text-zinc-400">Platform</span>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Global Network</a>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">API Docs</a>
+<span class="text-zinc-400" data-i18n="footer_platform">Platform</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" data-i18n="footer_global_network" href="#">Global Network</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" data-i18n="footer_api_docs" href="#" id="apiDocsLink">API Docs</a>
 </div>
 <div class="flex flex-col gap-4">
-<span class="text-zinc-400">Company</span>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Privacy Policy</a>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Terms of Service</a>
+<span class="text-zinc-400" data-i18n="footer_company">Company</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" data-i18n="footer_privacy" href="#">Privacy Policy</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" data-i18n="footer_terms" href="#">Terms of Service</a>
 </div>
 <div class="flex flex-col gap-4">
-<span class="text-zinc-400">Security</span>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" href="#">Security Compliance</a>
+<span class="text-zinc-400" data-i18n="footer_security">Security</span>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-lime-500 underline decoration-2 underline-offset-4 transition-all" data-i18n="footer_security_link" href="#">Security Compliance</a>
 </div>
 </div>
 </div>
 <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between gap-4">
-<p class="font-sans text-xs uppercase tracking-widest font-semibold text-zinc-500 dark:text-zinc-400">
-            Â© 2024 ComexWise Logistics Orchestration. All rights reserved.
+<p class="font-sans text-xs uppercase tracking-widest font-semibold text-zinc-500 dark:text-zinc-400" data-i18n="footer_copyright">
+            © 2024 ComexWise Logistics Orchestration. All rights reserved.
         </p>
 <div class="flex gap-6">
 <span class="material-symbols-outlined text-zinc-400">language</span>
-<span class="text-xs uppercase tracking-widest font-bold text-zinc-500">English (US)</span>
+<span class="text-xs uppercase tracking-widest font-bold text-zinc-500" data-i18n="footer_language">English (UK)</span>
 </div>
 </div>
 </footer>
+<div class="toast" data-i18n="toast_coming_soon" id="cwToast">API Docs is coming soon.</div>
+<script>
+        (() => {
+            const defaultLocale = "en";
+            const localeMeta = {
+                en: { label: "EN", flag: "https://flagcdn.com/gb.svg", htmlLang: "en-GB" },
+                es: { label: "ES", flag: "https://flagcdn.com/es.svg", htmlLang: "es-ES" },
+                pt: { label: "PT", flag: "https://flagcdn.com/pt.svg", htmlLang: "pt-PT" }
+            };
+
+            const i18n = {
+                en: {
+                    lang_name_en: "English",
+                    lang_name_es: "Spanish",
+                    lang_name_pt: "Portuguese",
+                    nav_platform: "Platform",
+                    nav_orders: "Orders",
+                    nav_partners: "Partners",
+                    nav_tracking: "Tracking",
+                    nav_security: "Security",
+                    nav_help: "Help",
+                    nav_login: "Log in",
+                    nav_contact: "Contact us",
+                    hero_badge: "The Future of Logistics",
+                    hero_title: "Manage your entire logistics operation <span class=\"hero-emphasis italic\">across all partners</span> in one platform.",
+                    hero_subtitle: "No emails. No spreadsheets. No manual coordination. Orchestrate your global supply chain with mathematical precision and fluid automation.",
+                    hero_cta_primary: "Launch Dashboard",
+                    hero_cta_secondary: "View Demo",
+                    platform_title: "The logistics operating system",
+                    platform_desc: "We don't just track shipments; we orchestrate ecosystems. ComexWise is built to dissolve the friction between disparate systems and fragmented communications.",
+                    platform_efficiency: "Operational<br/>Efficiency",
+                    platform_card1_title: "Centralized Command",
+                    platform_card1_desc: "A single source of truth for every stakeholder, from procurement to final mile delivery.",
+                    platform_card2_title: "Fluid Workflows",
+                    platform_card2_desc: "Automated document handling and status updates that move at the speed of your business.",
+                    platform_card3_title: "Predictive Intelligence",
+                    platform_card3_desc: "Identify bottlenecks before they become delays with AI-driven forecasting.",
+                    orders_step1_title: "Import & Export Initiation",
+                    orders_step1_desc: "Digitize commercial invoices and packing lists instantly. AI extracts critical data to prepopulate customs declarations.",
+                    orders_step2_title: "Dynamic Allocation",
+                    orders_step2_desc: "Route orders through our Multi-Forwarder engine to optimize for cost, speed, or carrier reliability.",
+                    orders_step3_title: "Full Execution Cycle",
+                    orders_step3_desc: "Real-time collaboration with carriers and customs brokers until the final POD is secured.",
+                    orders_title: "Precision Order Management",
+                    orders_desc: "Transform your import/export process into a seamless digital stream. No more \"where is the document?\" calls.",
+                    orders_image_tag: "Air Freight Efficiency",
+                    partners_hub_title: "Integration Hub",
+                    partners_hub_desc: "We speak the language of your enterprise. Seamlessly connect your core systems without complex middleware.",
+                    partners_portal_title: "Partner Portal",
+                    partners_portal_desc: "Collaboration is the soul of ComexWise. Invite your entire supply chain ecosystem into a shared workspace.",
+                    partners_li1: "Ocean & Air Carriers",
+                    partners_li2: "Customs Brokers",
+                    partners_li3: "Domestic Trucking Partners",
+                    tracking_title: "Real-time Track & Trace",
+                    tracking_desc: "Integrated directly with ocean and air carrier telematics. Know exactly where your cargo is - no manual refresh required.",
+                    tracking_current_vessel: "Current Vessel",
+                    tracking_status: "Status",
+                    tracking_status_value: "In Transit",
+                    ai_title: "AI & Automation",
+                    ai_desc: "Stop digging through reports. Query your logistics data using natural language. \"Show me all delayed shipments in the Pacific route\" or \"Predict which containers will miss the customs window.\"",
+                    ai_prompt_label: "Prompt:",
+                    ai_prompt_text: "Analyze route efficiency for Q3...",
+                    analytics_title: "Actionable Analytics",
+                    analytics_desc: "From high-level KPI dashboards to granular cost-per-kg tracking, we give you the data to negotiate better and move faster.",
+                    analytics_kpi_title: "Performance KPI",
+                    analytics_kpi_ontime: "On-Time Delivery",
+                    analytics_kpi_lead: "Average Lead Time",
+                    road_title: "Road Transport",
+                    road_desc: "Seamlessly transition from global ocean freight to domestic road logistics. One platform for the entire journey.",
+                    road_button: "Explore Logistics",
+                    multi_title: "Multi-Forwarder Strategy",
+                    multi_desc: "Avoid carrier lock-in. ComexWise allows you to implement resilient allocation strategies effortlessly.",
+                    multi_primary_title: "Primary Carrier",
+                    multi_primary_desc: "High volume, negotiated stability.",
+                    multi_secondary_title: "Secondary Partner",
+                    multi_secondary_desc: "Regional specialty and overflow support.",
+                    multi_spot_title: "Spot Market / Emergency",
+                    multi_spot_desc: "Agile response to global disruptions.",
+                    security_title: "Security & Compliance",
+                    security_desc: "Enterprise-grade security is not a feature; it is our foundation. We ensure every shipment meets international regulatory standards and data privacy protocols.",
+                    security_soc_title: "SOC 2 Type II",
+                    security_soc_desc: "Certified Data Security",
+                    security_gdpr_title: "GDPR Compliant",
+                    security_gdpr_desc: "Global Privacy Standards",
+                    about_title: "The ComexWise Story",
+                    about_desc: "ComexWise was born from the intersection of deep operational expertise and cutting-edge engineering. Founded by Carlos Roberto and Soubhik Sen, our mission was simple: to bring the elegance of modern fintech to the grit of global logistics. By combining decades of experience in supply chain management with a vision for total digital transparency, they built a platform that treats logistics not as a series of problems to be solved, but as a symphony to be orchestrated.",
+                    about_loc_1: "Sao Paulo, BR",
+                    about_loc_2: "San Francisco, US",
+                    about_loc_3: "Global Operations",
+                    cta_title: "Ready to orchestrate your supply chain?",
+                    cta_desc: "Join the leading logistics teams moving the world with ComexWise.",
+                    cta_button: "Get Started Today",
+                    footer_tagline: "The Logistics Operating System for the Modern Enterprise.",
+                    footer_platform: "Platform",
+                    footer_global_network: "Global Network",
+                    footer_api_docs: "API Docs",
+                    footer_company: "Company",
+                    footer_privacy: "Privacy Policy",
+                    footer_terms: "Terms of Service",
+                    footer_security: "Security",
+                    footer_security_link: "Security Compliance",
+                    footer_copyright: "© 2024 ComexWise Logistics Orchestration. All rights reserved.",
+                    footer_language: "English (UK)",
+                    toast_coming_soon: "API Docs is coming soon."
+                },
+                es: {
+                    lang_name_en: "Ingles",
+                    lang_name_es: "Espanol",
+                    lang_name_pt: "Portugues",
+                    nav_platform: "Plataforma",
+                    nav_orders: "Pedidos",
+                    nav_partners: "Socios",
+                    nav_tracking: "Seguimiento",
+                    nav_security: "Seguridad",
+                    nav_help: "Ayuda",
+                    nav_login: "Iniciar sesion",
+                    nav_contact: "Contactanos",
+                    hero_badge: "El Futuro de la Logistica",
+                    hero_title: "Gestiona toda tu operacion logistica <span class=\"hero-emphasis italic\">con todos tus socios</span> en una sola plataforma.",
+                    hero_subtitle: "Sin correos. Sin hojas de calculo. Sin coordinacion manual. Orquesta tu cadena de suministro global con precision matematica y automatizacion fluida.",
+                    hero_cta_primary: "Abrir Panel",
+                    hero_cta_secondary: "Ver Demo",
+                    platform_title: "El sistema operativo logistico",
+                    platform_desc: "No solo rastreamos envios; orquestamos ecosistemas. ComexWise elimina la friccion entre sistemas aislados y comunicaciones fragmentadas.",
+                    platform_efficiency: "Eficiencia<br/>Operativa",
+                    platform_card1_title: "Comando Centralizado",
+                    platform_card1_desc: "Una unica fuente de verdad para cada actor, desde compras hasta la entrega final.",
+                    platform_card2_title: "Flujos Agiles",
+                    platform_card2_desc: "Gestion documental automatizada y actualizaciones de estado a la velocidad de tu negocio.",
+                    platform_card3_title: "Inteligencia Predictiva",
+                    platform_card3_desc: "Identifica cuellos de botella antes de que se conviertan en retrasos con pronosticos impulsados por IA.",
+                    orders_step1_title: "Inicio de Importacion y Exportacion",
+                    orders_step1_desc: "Digitaliza al instante facturas comerciales y listas de empaque. La IA extrae datos criticos para prellenar declaraciones aduaneras.",
+                    orders_step2_title: "Asignacion Dinamica",
+                    orders_step2_desc: "Enruta pedidos con nuestro motor Multi-Forwarder para optimizar costo, velocidad o confiabilidad del transportista.",
+                    orders_step3_title: "Ciclo Completo de Ejecucion",
+                    orders_step3_desc: "Colaboracion en tiempo real con transportistas y agentes aduanales hasta asegurar el POD final.",
+                    orders_title: "Gestion de Pedidos de Precision",
+                    orders_desc: "Convierte tu proceso de importacion/exportacion en un flujo digital continuo. Se acabo la pregunta: \"donde esta el documento?\".",
+                    orders_image_tag: "Eficiencia en Carga Aerea",
+                    partners_hub_title: "Centro de Integracion",
+                    partners_hub_desc: "Hablamos el idioma de tu empresa. Conecta tus sistemas centrales sin middleware complejo.",
+                    partners_portal_title: "Portal de Socios",
+                    partners_portal_desc: "La colaboracion es el alma de ComexWise. Invita a todo tu ecosistema de cadena de suministro a un espacio de trabajo compartido.",
+                    partners_li1: "Transportistas Maritimos y Aereos",
+                    partners_li2: "Agentes Aduanales",
+                    partners_li3: "Socios de Transporte Terrestre",
+                    tracking_title: "Seguimiento en Tiempo Real",
+                    tracking_desc: "Integrado directamente con telematica de transportistas maritimos y aereos. Sabe exactamente donde esta tu carga sin actualizacion manual.",
+                    tracking_current_vessel: "Buque Actual",
+                    tracking_status: "Estado",
+                    tracking_status_value: "En Transito",
+                    ai_title: "IA y Automatizacion",
+                    ai_desc: "Deja de buscar en reportes. Consulta tus datos logisticos con lenguaje natural. \"Muestrame todos los envios retrasados en la ruta del Pacifico\" o \"Predice que contenedores perderan la ventana aduanera\".",
+                    ai_prompt_label: "Prompt:",
+                    ai_prompt_text: "Analiza la eficiencia de rutas para Q3...",
+                    analytics_title: "Analitica Accionable",
+                    analytics_desc: "Desde tableros KPI de alto nivel hasta costo por kg detallado, te damos datos para negociar mejor y moverte mas rapido.",
+                    analytics_kpi_title: "KPI de Rendimiento",
+                    analytics_kpi_ontime: "Entrega a Tiempo",
+                    analytics_kpi_lead: "Tiempo Medio de Entrega",
+                    road_title: "Transporte por Carretera",
+                    road_desc: "Pasa sin friccion del flete oceanico global a la logistica terrestre domestica. Una sola plataforma para todo el trayecto.",
+                    road_button: "Explorar Logistica",
+                    multi_title: "Estrategia Multi-Forwarder",
+                    multi_desc: "Evita depender de un solo transportista. ComexWise te permite implementar estrategias de asignacion resilientes con facilidad.",
+                    multi_primary_title: "Transportista Principal",
+                    multi_primary_desc: "Alto volumen y estabilidad negociada.",
+                    multi_secondary_title: "Socio Secundario",
+                    multi_secondary_desc: "Especialidad regional y soporte de sobrecarga.",
+                    multi_spot_title: "Mercado Spot / Emergencia",
+                    multi_spot_desc: "Respuesta agil ante disrupciones globales.",
+                    security_title: "Seguridad y Cumplimiento",
+                    security_desc: "La seguridad de nivel empresarial no es una funcion; es nuestra base. Aseguramos que cada envio cumpla normas internacionales y protocolos de privacidad.",
+                    security_soc_title: "SOC 2 Tipo II",
+                    security_soc_desc: "Seguridad de Datos Certificada",
+                    security_gdpr_title: "Cumple GDPR",
+                    security_gdpr_desc: "Estandares Globales de Privacidad",
+                    about_title: "La Historia de ComexWise",
+                    about_desc: "ComexWise nacio de la interseccion entre experiencia operativa profunda e ingenieria de vanguardia. Fundada por Carlos Roberto y Soubhik Sen, nuestra mision fue simple: llevar la elegancia del fintech moderno al mundo exigente de la logistica global. Combinando decadas de experiencia en cadena de suministro con una vision de transparencia total, construyeron una plataforma que trata la logistica como una sinfonia por orquestar.",
+                    about_loc_1: "Sao Paulo, BR",
+                    about_loc_2: "San Francisco, US",
+                    about_loc_3: "Operaciones Globales",
+                    cta_title: "Listo para orquestar tu cadena de suministro?",
+                    cta_desc: "Unete a los equipos logisticos lideres que mueven el mundo con ComexWise.",
+                    cta_button: "Comienza Hoy",
+                    footer_tagline: "El Sistema Operativo Logistico para la Empresa Moderna.",
+                    footer_platform: "Plataforma",
+                    footer_global_network: "Red Global",
+                    footer_api_docs: "Documentacion API",
+                    footer_company: "Empresa",
+                    footer_privacy: "Politica de Privacidad",
+                    footer_terms: "Terminos de Servicio",
+                    footer_security: "Seguridad",
+                    footer_security_link: "Cumplimiento de Seguridad",
+                    footer_copyright: "© 2024 ComexWise Orquestacion Logistica. Todos los derechos reservados.",
+                    footer_language: "Espanol (ES)",
+                    toast_coming_soon: "La documentacion API estara disponible pronto."
+                },
+                pt: {
+                    lang_name_en: "Ingles",
+                    lang_name_es: "Espanhol",
+                    lang_name_pt: "Portugues",
+                    nav_platform: "Plataforma",
+                    nav_orders: "Pedidos",
+                    nav_partners: "Parceiros",
+                    nav_tracking: "Rastreamento",
+                    nav_security: "Seguranca",
+                    nav_help: "Ajuda",
+                    nav_login: "Entrar",
+                    nav_contact: "Fale conosco",
+                    hero_badge: "O Futuro da Logistica",
+                    hero_title: "Gerencie toda a sua operacao logistica <span class=\"hero-emphasis italic\">com todos os parceiros</span> em uma unica plataforma.",
+                    hero_subtitle: "Sem emails. Sem planilhas. Sem coordenacao manual. Orquestre sua cadeia de suprimentos global com precisao matematica e automacao fluida.",
+                    hero_cta_primary: "Abrir Painel",
+                    hero_cta_secondary: "Ver Demo",
+                    platform_title: "O sistema operacional logistico",
+                    platform_desc: "Nao apenas rastreamos embarques; orquestramos ecossistemas. A ComexWise elimina a friccao entre sistemas desconectados e comunicacoes fragmentadas.",
+                    platform_efficiency: "Eficiencia<br/>Operacional",
+                    platform_card1_title: "Comando Centralizado",
+                    platform_card1_desc: "Uma unica fonte de verdade para cada participante, da compra ate a entrega final.",
+                    platform_card2_title: "Fluxos Fluidos",
+                    platform_card2_desc: "Tratamento automatico de documentos e atualizacoes de status na velocidade do seu negocio.",
+                    platform_card3_title: "Inteligencia Preditiva",
+                    platform_card3_desc: "Identifique gargalos antes que virem atrasos com previsoes orientadas por IA.",
+                    orders_step1_title: "Inicio de Importacao e Exportacao",
+                    orders_step1_desc: "Digitalize faturas comerciais e listas de embalagem em segundos. A IA extrai dados criticos para pre-preencher declaracoes aduaneiras.",
+                    orders_step2_title: "Alocacao Dinamica",
+                    orders_step2_desc: "Roteie pedidos com nosso motor Multi-Forwarder para otimizar custo, velocidade ou confiabilidade da transportadora.",
+                    orders_step3_title: "Ciclo Completo de Execucao",
+                    orders_step3_desc: "Colaboracao em tempo real com transportadoras e despachantes ate garantir o POD final.",
+                    orders_title: "Gestao de Pedidos com Precisao",
+                    orders_desc: "Transforme seu processo de importacao/exportacao em um fluxo digital continuo. Chega de \"onde esta o documento?\".",
+                    orders_image_tag: "Eficiencia em Carga Aerea",
+                    partners_hub_title: "Hub de Integracao",
+                    partners_hub_desc: "Falamos a lingua da sua empresa. Conecte seus sistemas principais sem middleware complexo.",
+                    partners_portal_title: "Portal de Parceiros",
+                    partners_portal_desc: "Colaboracao e a alma da ComexWise. Convide todo o ecossistema da sua cadeia de suprimentos para um workspace compartilhado.",
+                    partners_li1: "Transportadoras Maritimas e Aereas",
+                    partners_li2: "Despachantes Aduaneiros",
+                    partners_li3: "Parceiros de Transporte Rodoviario",
+                    tracking_title: "Rastreamento em Tempo Real",
+                    tracking_desc: "Integrado diretamente com telemetria maritima e aerea. Saiba exatamente onde sua carga esta sem atualizacao manual.",
+                    tracking_current_vessel: "Navio Atual",
+                    tracking_status: "Status",
+                    tracking_status_value: "Em Transito",
+                    ai_title: "IA e Automacao",
+                    ai_desc: "Pare de procurar em relatorios. Consulte seus dados logisticos em linguagem natural. \"Mostre todos os embarques atrasados na rota do Pacifico\" ou \"Preveja quais conteineres perderao a janela aduaneira\".",
+                    ai_prompt_label: "Prompt:",
+                    ai_prompt_text: "Analise a eficiencia de rotas para o Q3...",
+                    analytics_title: "Analitica Acionavel",
+                    analytics_desc: "De dashboards KPI de alto nivel a custo por kg detalhado, damos os dados para negociar melhor e mover mais rapido.",
+                    analytics_kpi_title: "KPI de Performance",
+                    analytics_kpi_ontime: "Entrega no Prazo",
+                    analytics_kpi_lead: "Prazo Medio",
+                    road_title: "Transporte Rodoviario",
+                    road_desc: "Transite sem friccao do frete maritimo global para a logistica rodoviaria domestica. Uma plataforma para toda a jornada.",
+                    road_button: "Explorar Logistica",
+                    multi_title: "Estrategia Multi-Forwarder",
+                    multi_desc: "Evite dependencia de uma unica transportadora. A ComexWise permite estrategias de alocacao resilientes com facilidade.",
+                    multi_primary_title: "Transportadora Principal",
+                    multi_primary_desc: "Alto volume e estabilidade negociada.",
+                    multi_secondary_title: "Parceiro Secundario",
+                    multi_secondary_desc: "Especialidade regional e suporte de pico.",
+                    multi_spot_title: "Mercado Spot / Emergencia",
+                    multi_spot_desc: "Resposta agil a disrupcoes globais.",
+                    security_title: "Seguranca e Conformidade",
+                    security_desc: "Seguranca empresarial nao e um recurso; e a nossa base. Garantimos que cada embarque atenda padroes internacionais e protocolos de privacidade.",
+                    security_soc_title: "SOC 2 Tipo II",
+                    security_soc_desc: "Seguranca de Dados Certificada",
+                    security_gdpr_title: "Conforme GDPR",
+                    security_gdpr_desc: "Padroes Globais de Privacidade",
+                    about_title: "A Historia da ComexWise",
+                    about_desc: "A ComexWise nasceu da intersecao entre experiencia operacional profunda e engenharia de ponta. Fundada por Carlos Roberto e Soubhik Sen, nossa missao foi simples: levar a elegancia do fintech moderno para a realidade da logistica global. Combinando decadas de experiencia em supply chain com uma visao de transparencia total, eles criaram uma plataforma que trata a logistica como uma sinfonia a ser orquestrada.",
+                    about_loc_1: "Sao Paulo, BR",
+                    about_loc_2: "San Francisco, US",
+                    about_loc_3: "Operacoes Globais",
+                    cta_title: "Pronto para orquestrar sua cadeia de suprimentos?",
+                    cta_desc: "Junte-se aos times logisticos lideres que movem o mundo com a ComexWise.",
+                    cta_button: "Comece Hoje",
+                    footer_tagline: "O Sistema Operacional Logistico para a Empresa Moderna.",
+                    footer_platform: "Plataforma",
+                    footer_global_network: "Rede Global",
+                    footer_api_docs: "Docs da API",
+                    footer_company: "Empresa",
+                    footer_privacy: "Politica de Privacidade",
+                    footer_terms: "Termos de Servico",
+                    footer_security: "Seguranca",
+                    footer_security_link: "Conformidade de Seguranca",
+                    footer_copyright: "© 2024 ComexWise Orquestracao Logistica. Todos os direitos reservados.",
+                    footer_language: "Portugues (PT)",
+                    toast_coming_soon: "A documentacao da API estara disponivel em breve."
+                }
+            };
+
+            const i18nTextNodes = Array.from(document.querySelectorAll("[data-i18n]"));
+            const i18nHtmlNodes = Array.from(document.querySelectorAll("[data-i18n-html]"));
+            const langMenu = document.getElementById("langMenu");
+            const langButton = document.getElementById("langButton");
+            const langPanel = document.getElementById("langPanel");
+            const langFlag = document.getElementById("langFlag");
+            const langLabel = document.getElementById("langLabel");
+            const langOptions = Array.from(document.querySelectorAll(".lang-option"));
+            const apiDocsLink = document.getElementById("apiDocsLink");
+            const toastEl = document.getElementById("cwToast");
+            const scrollProgress = document.getElementById("scrollProgress");
+            const topNav = document.getElementById("topNav");
+            const topNavInner = document.getElementById("topNavInner");
+            const desktopNavLinks = document.getElementById("desktopNavLinks");
+            const navLinkRail = document.getElementById("navLinkRail");
+            const sectionDots = document.getElementById("sectionDots");
+            const sectionDotButtons = Array.from(document.querySelectorAll(".section-dot[data-target]"));
+            let currentLocale = defaultLocale;
+            let toastTimer = null;
+            const motionProfiles = {
+                subtle: {
+                    parallax: 0.72,
+                    mouse: 0.7,
+                    magnetic: 0.66,
+                    tilt: 0.7,
+                    tiltLift: 4.6,
+                    revealMs: 560,
+                    preRevealY: 22,
+                    revealY: 18,
+                    glideLift: 6
+                },
+                balanced: {
+                    parallax: 1,
+                    mouse: 1,
+                    magnetic: 1,
+                    tilt: 1,
+                    tiltLift: 6,
+                    revealMs: 650,
+                    preRevealY: 28,
+                    revealY: 24,
+                    glideLift: 8
+                },
+                cinematic: {
+                    parallax: 1.28,
+                    mouse: 1.24,
+                    magnetic: 1.2,
+                    tilt: 1.2,
+                    tiltLift: 8.2,
+                    revealMs: 760,
+                    preRevealY: 34,
+                    revealY: 30,
+                    glideLift: 10
+                }
+            };
+            const motionQuery = new URLSearchParams(window.location.search).get("motion");
+            let storedMotionProfile = null;
+            try {
+                storedMotionProfile = window.localStorage.getItem("cw-motion-profile");
+            } catch (error) {
+                storedMotionProfile = null;
+            }
+            const requestedMotionProfile = [motionQuery, storedMotionProfile, "balanced"]
+                .map((value) => (value || "").toLowerCase())
+                .find((name) => Object.prototype.hasOwnProperty.call(motionProfiles, name)) || "balanced";
+            const motion = motionProfiles[requestedMotionProfile];
+            try {
+                window.localStorage.setItem("cw-motion-profile", requestedMotionProfile);
+            } catch (error) {
+                // Ignore storage failures (private mode / blocked storage).
+            }
+            document.documentElement.dataset.motionProfile = requestedMotionProfile;
+            document.documentElement.style.setProperty("--cw-reveal-ms", `${motion.revealMs}ms`);
+            document.documentElement.style.setProperty("--cw-pre-reveal-y", `${motion.preRevealY}px`);
+            document.documentElement.style.setProperty("--cw-reveal-y", `${motion.revealY}px`);
+            document.documentElement.style.setProperty("--cw-glide-lift", `${motion.glideLift}px`);
+
+            const closeLangPanel = () => {
+                if (!langPanel || !langButton) return;
+                langPanel.classList.add("hidden");
+                langButton.setAttribute("aria-expanded", "false");
+            };
+
+            const applyLocale = (requestedLocale) => {
+                const locale = Object.prototype.hasOwnProperty.call(i18n, requestedLocale) ? requestedLocale : defaultLocale;
+                const dictionary = i18n[locale];
+
+                i18nTextNodes.forEach((node) => {
+                    const key = node.dataset.i18n;
+                    if (!key || !Object.prototype.hasOwnProperty.call(dictionary, key)) return;
+                    node.textContent = dictionary[key];
+                });
+
+                i18nHtmlNodes.forEach((node) => {
+                    const key = node.dataset.i18nHtml;
+                    if (!key || !Object.prototype.hasOwnProperty.call(dictionary, key)) return;
+                    node.innerHTML = dictionary[key];
+                });
+
+                const selectedMeta = localeMeta[locale] || localeMeta[defaultLocale];
+                if (langFlag) {
+                    langFlag.src = selectedMeta.flag;
+                    langFlag.alt = locale === "en" ? "United Kingdom flag" : locale === "es" ? "Spain flag" : "Portugal flag";
+                }
+                if (langLabel) {
+                    langLabel.textContent = selectedMeta.label;
+                }
+
+                langOptions.forEach((option) => {
+                    option.classList.toggle("is-active", option.dataset.lang === locale);
+                });
+
+                document.documentElement.lang = selectedMeta.htmlLang;
+                currentLocale = locale;
+            };
+
+            const showToast = (message) => {
+                if (!toastEl) return;
+                toastEl.textContent = message;
+                toastEl.classList.add("show");
+                if (toastTimer) {
+                    window.clearTimeout(toastTimer);
+                }
+                toastTimer = window.setTimeout(() => {
+                    toastEl.classList.remove("show");
+                }, 2200);
+            };
+
+            if (langButton && langPanel) {
+                langButton.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    const willOpen = langPanel.classList.contains("hidden");
+                    langPanel.classList.toggle("hidden", !willOpen);
+                    langButton.setAttribute("aria-expanded", willOpen ? "true" : "false");
+                });
+            }
+
+            langOptions.forEach((option) => {
+                option.addEventListener("click", () => {
+                    const locale = option.dataset.lang || defaultLocale;
+                    applyLocale(locale);
+                    closeLangPanel();
+                });
+            });
+
+            document.addEventListener("click", (event) => {
+                if (!langMenu || !langPanel || !langButton) return;
+                const target = event.target;
+                if (!(target instanceof Node)) return;
+                if (!langMenu.contains(target)) {
+                    closeLangPanel();
+                }
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeLangPanel();
+                }
+            });
+
+            if (apiDocsLink) {
+                apiDocsLink.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const toastText = (i18n[currentLocale] && i18n[currentLocale].toast_coming_soon) || "API Docs is coming soon.";
+                    showToast(toastText);
+                });
+            }
+
+            applyLocale(defaultLocale);
+
+            const interactiveSections = Array.from(document.querySelectorAll("header#top, section"));
+            interactiveSections.forEach((section) => section.classList.add("interactive-section"));
+            const sectionFocusObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        entry.target.classList.toggle("section-live", entry.isIntersecting);
+                    });
+                },
+                { threshold: 0.28, rootMargin: "-18% 0px -26% 0px" }
+            );
+            interactiveSections.forEach((section) => sectionFocusObserver.observe(section));
+
+            const pointerFine = window.matchMedia("(pointer:fine)").matches;
+            const mouseParallaxNodes = Array.from(document.querySelectorAll("[data-mouse-parallax]"));
+            const heroRoot = document.getElementById("top");
+            if (heroRoot && pointerFine) {
+                heroRoot.addEventListener("pointermove", (event) => {
+                    const rect = heroRoot.getBoundingClientRect();
+                    const nx = ((event.clientX - rect.left) / rect.width) - 0.5;
+                    const ny = ((event.clientY - rect.top) / rect.height) - 0.5;
+                    mouseParallaxNodes.forEach((node) => {
+                        const factor = Number(node.dataset.mouseParallax || "0");
+                        if (!factor) return;
+                        const mx = nx * factor * 120 * motion.mouse;
+                        const my = ny * factor * 90 * motion.mouse;
+                        node.style.setProperty("--mouse-x", `${mx.toFixed(2)}px`);
+                        node.style.setProperty("--mouse-y", `${my.toFixed(2)}px`);
+                    });
+                });
+                heroRoot.addEventListener("pointerleave", () => {
+                    mouseParallaxNodes.forEach((node) => {
+                        node.style.setProperty("--mouse-x", "0px");
+                        node.style.setProperty("--mouse-y", "0px");
+                    });
+                });
+            }
+
+            const magneticNodes = Array.from(document.querySelectorAll(".magnetic"));
+            if (pointerFine) {
+                magneticNodes.forEach((node) => {
+                    node.addEventListener("pointermove", (event) => {
+                        const rect = node.getBoundingClientRect();
+                        const nx = ((event.clientX - rect.left) / rect.width) - 0.5;
+                        const ny = ((event.clientY - rect.top) / rect.height) - 0.5;
+                        node.style.transform = `translate3d(${(nx * 8 * motion.magnetic).toFixed(2)}px, ${(ny * 7 * motion.magnetic).toFixed(2)}px, 0)`;
+                    });
+                    node.addEventListener("pointerleave", () => {
+                        node.style.transform = "";
+                    });
+                });
+            }
+
+            const sectionLinks = Array.from(document.querySelectorAll(".section-select[href^='#']"));
+            const observedHashes = Array.from(
+                new Set([
+                    ...sectionLinks.map((link) => link.getAttribute("href") || ""),
+                    ...sectionDotButtons.map((dot) => dot.dataset.target || "")
+                ])
+            ).filter((hash) => hash.startsWith("#"));
+            const sectionEntries = observedHashes
+                .map((hash) => {
+                    const node = document.querySelector(hash);
+                    return node instanceof HTMLElement ? { hash, node } : null;
+                })
+                .filter((entry) => entry !== null);
+            const desktopSectionLinks = sectionLinks.filter((link) => desktopNavLinks && desktopNavLinks.contains(link));
+            let activeDesktopLink = desktopSectionLinks.find((link) => link.classList.contains("active")) || desktopSectionLinks[0] || null;
+            let activeDotHash = sectionDotButtons[0] ? sectionDotButtons[0].dataset.target : null;
+            let activeSectionHash = null;
+
+            const scrollToSection = (target) => {
+                if (!(target instanceof HTMLElement)) return;
+                const navOffset = topNavInner ? topNavInner.getBoundingClientRect().height + 18 : 96;
+                const y = window.scrollY + target.getBoundingClientRect().top - navOffset;
+                window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+            };
+
+            const placeNavRail = (targetLink) => {
+                if (!desktopNavLinks || !navLinkRail || !targetLink) return;
+                const containerRect = desktopNavLinks.getBoundingClientRect();
+                const linkRect = targetLink.getBoundingClientRect();
+                const width = Math.max(24, linkRect.width - 14);
+                const x = (linkRect.left - containerRect.left) + ((linkRect.width - width) / 2);
+                navLinkRail.style.width = `${width.toFixed(2)}px`;
+                navLinkRail.style.transform = `translateX(${x.toFixed(2)}px)`;
+                navLinkRail.classList.add("visible");
+            };
+
+            const updateSectionDots = (targetHash) => {
+                if (!sectionDots || sectionDotButtons.length === 0 || !targetHash) return;
+                const activeIndex = sectionDotButtons.findIndex((dot) => dot.dataset.target === targetHash);
+                if (activeIndex < 0) return;
+                sectionDotButtons.forEach((dot, index) => {
+                    dot.classList.toggle("is-active", index === activeIndex);
+                    dot.classList.toggle("is-past", index < activeIndex);
+                });
+                activeDotHash = targetHash;
+            };
+
+            const setActiveSection = (targetHash) => {
+                if (!targetHash) return;
+                activeSectionHash = targetHash;
+                sectionLinks.forEach((link) => {
+                    const isActive = link.getAttribute("href") === targetHash;
+                    link.classList.toggle("active", isActive);
+                    if (isActive && desktopSectionLinks.includes(link)) {
+                        activeDesktopLink = link;
+                    }
+                });
+                updateSectionDots(targetHash);
+                if (activeDesktopLink) {
+                    placeNavRail(activeDesktopLink);
+                }
+            };
+
+            const resolveActiveSectionHash = () => {
+                if (sectionEntries.length === 0) return null;
+                const navHeight = topNavInner ? topNavInner.getBoundingClientRect().height : 84;
+                const anchorY = Math.min(window.innerHeight * 0.44, navHeight + 90);
+                let candidateInside = null;
+                let nextBelow = null;
+                let lastAbove = null;
+
+                sectionEntries.forEach((entry) => {
+                    const rect = entry.node.getBoundingClientRect();
+                    const top = rect.top;
+                    const bottom = rect.bottom;
+
+                    if (top <= anchorY && bottom > anchorY) {
+                        if (!candidateInside || top > candidateInside.top) {
+                            candidateInside = { hash: entry.hash, top };
+                        }
+                    }
+
+                    if (top > anchorY && (!nextBelow || top < nextBelow.top)) {
+                        nextBelow = { hash: entry.hash, top };
+                    }
+
+                    if (top <= anchorY && (!lastAbove || top > lastAbove.top)) {
+                        lastAbove = { hash: entry.hash, top };
+                    }
+                });
+
+                if (candidateInside) return candidateInside.hash;
+                if (nextBelow) return nextBelow.hash;
+                if (lastAbove) return lastAbove.hash;
+                return sectionEntries[0].hash;
+            };
+
+            if (desktopSectionLinks.length > 0) {
+                placeNavRail(activeDesktopLink);
+                desktopSectionLinks.forEach((link) => {
+                    link.addEventListener("mouseenter", () => placeNavRail(link));
+                });
+                if (desktopNavLinks) {
+                    desktopNavLinks.addEventListener("mouseleave", () => placeNavRail(activeDesktopLink));
+                }
+            }
+
+            sectionLinks.forEach((link) => {
+                link.addEventListener("click", (event) => {
+                    const target = document.querySelector(link.getAttribute("href"));
+                    if (!target) return;
+                    event.preventDefault();
+                    scrollToSection(target);
+                });
+            });
+
+            sectionDotButtons.forEach((dot) => {
+                dot.addEventListener("click", () => {
+                    const hash = dot.dataset.target;
+                    if (!hash) return;
+                    const target = document.querySelector(hash);
+                    scrollToSection(target);
+                });
+            });
+
+            if (activeDotHash) {
+                updateSectionDots(activeDotHash);
+            }
+            const initialSectionHash = resolveActiveSectionHash();
+            if (initialSectionHash) {
+                setActiveSection(initialSectionHash);
+            }
+
+            const revealSet = new Set();
+            const revealSelectors = [
+                "header h1",
+                "header p",
+                "section h2",
+                "section h3",
+                "section h4",
+                "section p",
+                "section li",
+                "section .rounded-xl",
+                "section .rounded-2xl",
+                "section .rounded-3xl",
+                "section .grid > div",
+                "footer .grid > div"
+            ];
+
+            revealSelectors.forEach((selector) => {
+                document.querySelectorAll(selector).forEach((node) => {
+                    if (!(node instanceof HTMLElement)) return;
+                    revealSet.add(node);
+                    node.classList.add("reveal-slide");
+                });
+            });
+
+            const useInteractiveTilt = pointerFine;
+            document.querySelectorAll(".rounded-xl, .rounded-2xl, .rounded-3xl, .group").forEach((node) => {
+                if (!(node instanceof HTMLElement)) return;
+                node.classList.add("glide-hover", "interactive-surface");
+                if (!useInteractiveTilt) return;
+                node.addEventListener("pointermove", (event) => {
+                    const rect = node.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    const rx = ((y / rect.height) - 0.5) * -7 * motion.tilt;
+                    const ry = ((x / rect.width) - 0.5) * 8 * motion.tilt;
+                    node.style.setProperty("--mx", `${(x / rect.width) * 100}%`);
+                    node.style.setProperty("--my", `${(y / rect.height) * 100}%`);
+                    node.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(${(-motion.tiltLift).toFixed(2)}px)`;
+                });
+                node.addEventListener("pointerleave", () => {
+                    node.style.removeProperty("--mx");
+                    node.style.removeProperty("--my");
+                    node.style.transform = "";
+                });
+            });
+
+            const revealObserver = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.remove("pre-reveal");
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target);
+                    });
+                },
+                { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+            );
+
+            revealSet.forEach((node) => {
+                const rect = node.getBoundingClientRect();
+                if (rect.top > window.innerHeight * 0.9) {
+                    node.classList.add("pre-reveal");
+                } else {
+                    node.classList.add("is-visible");
+                }
+                revealObserver.observe(node);
+            });
+
+            document.querySelectorAll("section img, header img").forEach((node, index) => {
+                if (!(node instanceof HTMLElement)) return;
+                const classText = node.className || "";
+                if (classText.includes("hover:scale") || classText.includes("group-hover:")) return;
+                node.classList.add("parallax-layer");
+                if (!node.dataset.parallaxSpeed) {
+                    node.dataset.parallaxSpeed = index % 2 === 0 ? "0.08" : "-0.06";
+                }
+            });
+
+            const parallaxTargets = Array.from(document.querySelectorAll("[data-parallax-speed], .parallax-section"));
+            let animationFrame = null;
+            const updateScrollProgress = () => {
+                if (!scrollProgress) return;
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = Math.max(0, window.scrollY);
+                const pct = total > 0 ? (scrolled / total) * 100 : 0;
+                scrollProgress.style.width = `${Math.min(100, Math.max(0, pct)).toFixed(2)}%`;
+            };
+
+            const updateParallax = () => {
+                if (topNav && topNavInner) {
+                    const isScrolled = window.scrollY > 18;
+                    topNav.classList.toggle("nav-scrolled", isScrolled);
+                    topNavInner.classList.toggle("nav-inner-compact", isScrolled);
+                }
+                const resolvedHash = resolveActiveSectionHash();
+                if (resolvedHash && resolvedHash !== activeSectionHash) {
+                    setActiveSection(resolvedHash);
+                }
+                const viewportCenter = window.innerHeight * 0.5;
+                parallaxTargets.forEach((node) => {
+                    if (!(node instanceof HTMLElement)) return;
+                    const rect = node.getBoundingClientRect();
+                    const speed = node.dataset.parallaxSpeed ? Number(node.dataset.parallaxSpeed) : 0.12;
+                    const offset = (viewportCenter - (rect.top + rect.height * 0.5)) * speed * motion.parallax;
+
+                    if (node.classList.contains("parallax-section")) {
+                        node.style.backgroundPosition = `center calc(50% + ${offset.toFixed(2)}px)`;
+                    } else {
+                        const driftX = offset * speed * -0.36;
+                        if (node.classList.contains("parallax-layer")) {
+                            node.style.setProperty("--scroll-x", `${driftX.toFixed(2)}px`);
+                            node.style.setProperty("--scroll-y", `${offset.toFixed(2)}px`);
+                        } else {
+                            node.style.transform = `translate3d(${driftX.toFixed(2)}px, ${offset.toFixed(2)}px, 0)`;
+                        }
+                    }
+                });
+                animationFrame = null;
+            };
+
+            const scheduleParallax = () => {
+                if (animationFrame !== null) return;
+                animationFrame = window.requestAnimationFrame(updateParallax);
+                updateScrollProgress();
+                if (activeDesktopLink) {
+                    placeNavRail(activeDesktopLink);
+                }
+            };
+
+            updateParallax();
+            updateScrollProgress();
+            window.addEventListener("scroll", scheduleParallax, { passive: true });
+            window.addEventListener("resize", scheduleParallax);
+        })();
+    </script>
 </body></html>
