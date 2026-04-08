@@ -81,6 +81,30 @@
             --cw-pre-reveal-y: 28px;
             --cw-reveal-y: 24px;
             --cw-glide-lift: 8px;
+            --cw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --cw-focus-ring: 0 0 0 3px rgba(125, 222, 63, 0.32);
+            --cw-focus-ring-hero: 0 0 0 3px rgba(255, 255, 255, 0.32), 0 0 0 6px rgba(125, 222, 63, 0.42);
+            --section-y: clamp(4.75rem, 8vw, 8rem);
+            --section-y-parallax: clamp(5.5rem, 9vw, 9rem);
+        }
+        body {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2 {
+            text-wrap: balance;
+        }
+        p {
+            text-wrap: pretty;
+        }
+        section {
+            scroll-margin-top: 7.4rem;
+        }
+        .cw-section {
+            padding-block: var(--section-y) !important;
+        }
+        .cw-section.parallax-section {
+            padding-block: var(--section-y-parallax) !important;
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -108,26 +132,35 @@
             text-shadow: 0 4px 8px rgba(0,0,0,0.6);
         }
         .top-link {
-            color: #171717;
+            color: #1f2937;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.96rem;
+            line-height: 1;
             border-radius: 9999px;
-            padding: 0.45rem 0.9rem;
-            transition: color 150ms ease, background-color 150ms ease, transform 160ms ease;
+            padding: 0.52rem 0.95rem;
+            border: 1px solid transparent;
+            transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
         }
         .top-link:hover {
-            color: #2f6c00;
-            background: rgba(47, 108, 0, 0.08);
-            transform: translateY(-1px);
+            color: #214a00;
+            background: rgba(152, 251, 89, 0.16);
+            border-color: rgba(125, 222, 63, 0.35);
         }
         .top-link.active {
             color: #1f4600;
-            background: rgba(152, 251, 89, 0.38);
+            background: rgba(152, 251, 89, 0.26);
+            border-color: rgba(125, 222, 63, 0.5);
+            box-shadow: inset 0 0 0 1px rgba(125, 222, 63, 0.22);
         }
         .utility-link {
-            color: #18181b;
+            color: #4b5563;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.92rem;
+            letter-spacing: 0.01em;
+            transition: color 150ms ease;
+        }
+        .utility-link:hover {
+            color: #214a00;
         }
         .lang-trigger {
             display: inline-flex;
@@ -139,10 +172,13 @@
             border: 1px solid rgba(17, 24, 39, 0.14);
             border-radius: 9999px;
             background: #ffffff;
-            padding: 0.42rem 0.72rem;
+            padding: 0.44rem 0.78rem;
+            transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
         }
         .lang-trigger:hover {
             background: #f8fafc;
+            border-color: rgba(47, 108, 0, 0.22);
+            box-shadow: 0 8px 16px -14px rgba(15, 23, 42, 0.62);
         }
         .lang-panel {
             position: absolute;
@@ -196,15 +232,18 @@
             border-radius: 9999px;
             padding: 0.72rem 1.65rem;
             font-weight: 700;
-            transition: filter 150ms ease;
+            border: 1px solid rgba(47, 108, 0, 0.24);
+            box-shadow: 0 14px 28px -24px rgba(33, 74, 0, 0.6);
+            transition: transform 160ms ease, box-shadow 160ms ease, filter 150ms ease;
         }
         .signup-btn:hover {
             filter: brightness(0.95);
+            box-shadow: 0 16px 28px -24px rgba(33, 74, 0, 0.65);
         }
         .brand-wordmark {
             font-family: "Sora", "Manrope", sans-serif;
-            font-size: 1.7rem;
-            font-weight: 700;
+            font-size: 1.62rem;
+            font-weight: 800;
             letter-spacing: -0.03em;
             color: #123300;
         }
@@ -229,7 +268,6 @@
         }
         .mobile-menu-btn:hover {
             background: #f8fafc;
-            transform: translateY(-1px);
             box-shadow: 0 16px 28px -20px rgba(15, 23, 42, 0.52);
         }
         .mobile-menu-panel {
@@ -274,7 +312,9 @@
             font-size: 0.9rem;
             font-weight: 700;
             padding: 0.4rem 0.55rem;
-            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, opacity 160ms ease, transform 180ms var(--cw-ease-out);
         }
         .mobile-nav-link.active {
             border-color: rgba(128, 225, 66, 0.64);
@@ -303,10 +343,11 @@
             border: 1px solid rgba(15, 23, 42, 0.12);
             color: #0f172a;
             background: #ffffff;
-            transition: transform 140ms ease, filter 140ms ease;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: transform 180ms var(--cw-ease-out), filter 140ms ease, opacity 160ms ease;
         }
         .mobile-nav-action:hover {
-            transform: translateY(-1px);
             filter: brightness(0.98);
         }
         .mobile-nav-action.contact {
@@ -331,13 +372,32 @@
             font-weight: 700;
             font-size: 0.78rem;
             color: #0f172a;
-            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, opacity 160ms ease, transform 180ms var(--cw-ease-out);
         }
         .mobile-lang-option.is-active {
             border-color: rgba(128, 225, 66, 0.64);
             color: #1f4600;
             background: rgba(152, 251, 89, 0.18);
         }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link,
+        .mobile-menu-panel.open .mobile-menu-actions > .mobile-nav-action,
+        .mobile-menu-panel.open .mobile-language-strip > .mobile-lang-option {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(1) { transition-delay: 0ms; }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(2) { transition-delay: 24ms; }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(3) { transition-delay: 48ms; }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(4) { transition-delay: 72ms; }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(5) { transition-delay: 96ms; }
+        .mobile-menu-panel.open .mobile-menu-links > .mobile-nav-link:nth-child(6) { transition-delay: 120ms; }
+        .mobile-menu-panel.open .mobile-menu-actions > .mobile-nav-action:nth-child(1) { transition-delay: 72ms; }
+        .mobile-menu-panel.open .mobile-menu-actions > .mobile-nav-action:nth-child(2) { transition-delay: 96ms; }
+        .mobile-menu-panel.open .mobile-language-strip > .mobile-lang-option:nth-child(1) { transition-delay: 80ms; }
+        .mobile-menu-panel.open .mobile-language-strip > .mobile-lang-option:nth-child(2) { transition-delay: 100ms; }
+        .mobile-menu-panel.open .mobile-language-strip > .mobile-lang-option:nth-child(3) { transition-delay: 120ms; }
         .mobile-lang-option .lang-flag {
             width: 0.92rem;
             height: 0.92rem;
@@ -360,17 +420,8 @@
             transform: translate3d(0, var(--cw-pre-reveal-y), 0) scale(0.99);
         }
         .reveal-slide.is-visible {
-            animation: reveal-in var(--cw-reveal-ms) cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-        @keyframes reveal-in {
-            from {
-                opacity: 0;
-                transform: translate3d(0, var(--cw-reveal-y), 0) scale(0.99);
-            }
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0) scale(1);
-            }
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
         }
         .glide-hover {
             transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms ease;
@@ -381,21 +432,72 @@
         }
         .hero-title {
             font-family: "Inter", "Manrope", sans-serif;
-            font-weight: 700;
-            letter-spacing: -0.035em;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.02;
+            max-width: 16ch;
         }
         .hero-emphasis {
             color: #80e142;
             text-shadow: none;
         }
+        .hero-badge {
+            letter-spacing: 0.16em;
+            border: 1px solid rgba(218, 255, 195, 0.4);
+            box-shadow: 0 14px 28px -22px rgba(30, 64, 0, 0.65);
+        }
+        .hero-subtitle {
+            max-width: min(52ch, 100%);
+            font-weight: 500;
+            line-height: 1.52;
+            color: rgba(250, 250, 250, 0.94);
+        }
+        .hero-actions {
+            margin-top: 0.2rem;
+            gap: 0.8rem;
+        }
+        .hero-btn {
+            border-radius: 0.75rem;
+            position: relative;
+            isolation: isolate;
+            transition: transform 190ms var(--cw-ease-out), box-shadow 220ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+            will-change: transform;
+        }
+        .hero-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0) 75%);
+            opacity: 0;
+            transform: translateX(-110%);
+            transition: transform 520ms var(--cw-ease-out), opacity 260ms ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .hero-btn-primary {
+            box-shadow: 0 18px 34px -24px rgba(125, 222, 63, 0.9);
+        }
+        .hero-btn-primary:hover {
+            background: #7dde3f;
+            color: #092100;
+            box-shadow: 0 24px 42px -24px rgba(125, 222, 63, 1);
+        }
+        .hero-btn-secondary {
+            border-color: rgba(255, 255, 255, 0.36);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 28px -24px rgba(15, 23, 42, 0.72);
+        }
+        .hero-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.52);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 20px 34px -24px rgba(15, 23, 42, 0.8);
+        }
         .cta-glow {
-            box-shadow: 0 18px 40px -22px rgba(125, 222, 63, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            box-shadow: 0 16px 32px -24px rgba(125, 222, 63, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.22);
             transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
         }
         .cta-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 26px 48px -24px rgba(125, 222, 63, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.32);
-            filter: saturate(1.08);
+            box-shadow: 0 22px 40px -26px rgba(125, 222, 63, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+            filter: saturate(1.04);
         }
         .aurora-layer {
             pointer-events: none;
@@ -454,9 +556,6 @@
             transition: opacity 220ms ease;
             pointer-events: none;
         }
-        .interactive-surface:hover::after {
-            opacity: 1;
-        }
         .interactive-section {
             position: relative;
             transition: transform 420ms ease, filter 420ms ease;
@@ -486,11 +585,13 @@
             will-change: transform;
         }
         #topNav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
             transition: top 260ms ease, left 260ms ease, right 260ms ease, border-radius 260ms ease, background-color 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
         }
         .nav-scrolled {
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(12px);
             border-color: rgba(113, 113, 122, 0.34);
             box-shadow: 0 16px 30px -24px rgba(15, 23, 42, 0.45);
         }
@@ -512,7 +613,7 @@
             transition: height 240ms ease, padding 240ms ease;
         }
         .nav-inner.nav-inner-compact {
-            height: 72px;
+            height: 74px;
         }
         .nav-link-rail {
             position: absolute;
@@ -543,9 +644,12 @@
         }
         .progress-bar {
             height: 100%;
-            width: 0;
+            width: 100%;
             background: linear-gradient(90deg, #7dde3f 0%, #38d39f 100%);
             box-shadow: 0 0 14px rgba(125, 222, 63, 0.78);
+            transform: scaleX(0);
+            transform-origin: left center;
+            will-change: transform;
         }
         .section-dots {
             position: fixed;
@@ -578,7 +682,6 @@
             transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
         }
         .section-dot:hover {
-            transform: scale(1.24);
             background: rgba(218, 255, 195, 0.98);
             border-color: rgba(195, 255, 160, 0.95);
         }
@@ -601,10 +704,6 @@
             background: rgba(2, 6, 23, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.12);
             transition: opacity 160ms ease, transform 160ms ease;
-        }
-        .section-dot:hover::after {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
         }
         .section-dot.is-past {
             background: rgba(152, 251, 89, 0.68);
@@ -648,6 +747,7 @@
             opacity: 0.34;
             background: linear-gradient(95deg, rgba(125, 222, 63, 0) 0%, rgba(125, 222, 63, 0.24) 38%, rgba(56, 211, 159, 0.22) 64%, rgba(56, 211, 159, 0) 100%);
             filter: blur(20px);
+            animation: hero-sheen-drift 9s ease-in-out infinite alternate;
         }
         @media (max-width: 1023px) {
             .hero-grid {
@@ -688,19 +788,107 @@
             0% { transform: translate3d(0, 0, 0) scale(1); }
             100% { transform: translate3d(-3rem, -2.2rem, 0) scale(1.12); }
         }
+        @keyframes hero-sheen-drift {
+            from { transform: rotate(-10deg) translate3d(0, 0, 0); }
+            to { transform: rotate(-8.5deg) translate3d(2.2rem, 0.3rem, 0); }
+        }
+        a:focus-visible,
+        button:focus-visible {
+            outline: none;
+            box-shadow: var(--cw-focus-ring);
+        }
+        .hero-btn:focus-visible {
+            box-shadow: var(--cw-focus-ring-hero);
+        }
+        .pressable:active {
+            transform: scale(0.97);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .top-link:hover {
+                transform: translateY(-1px);
+            }
+            .lang-trigger:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 20px -18px rgba(15, 23, 42, 0.65);
+            }
+            .signup-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 18px 32px -24px rgba(33, 74, 0, 0.68);
+            }
+            .mobile-menu-btn:hover {
+                transform: translateY(-1px);
+            }
+            .mobile-nav-action:hover {
+                transform: translateY(-1px);
+            }
+            .hero-btn:hover::after {
+                opacity: 1;
+                transform: translateX(110%);
+            }
+            .hero-btn-primary:hover,
+            .hero-btn-secondary:hover {
+                transform: translateY(-2px);
+            }
+            .section-dot:hover {
+                transform: scale(1.24);
+            }
+            .section-dot:hover::after {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+            .interactive-surface:hover::after {
+                opacity: 1;
+            }
+        }
+        @media (max-width: 1023px) {
+            .hero-subtitle {
+                max-width: 42ch;
+            }
+        }
+        @media (max-width: 640px) {
+            .hero-subtitle {
+                max-width: 34ch;
+            }
+        }
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --cw-reveal-ms: 220ms;
+                --cw-pre-reveal-y: 10px;
+                --cw-reveal-y: 8px;
+                --cw-glide-lift: 2px;
+            }
+            .pressable:active {
+                transform: none;
+            }
+            * {
+                animation-duration: 1ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 1ms !important;
+                scroll-behavior: auto !important;
+            }
+            .parallax-layer,
+            .hero-btn,
+            .magnetic,
+            .interactive-surface {
+                transform: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
 <div class="progress-track"><div class="progress-bar" id="scrollProgress"></div></div>
 <!-- TopNavBar -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-white border-b border-zinc-200/80 shadow-sm" id="topNav">
-<div class="nav-inner max-w-screen-2xl mx-auto px-5 sm:px-10 h-[84px] flex items-center justify-between gap-6" id="topNavInner">
+<div class="nav-inner max-w-screen-2xl mx-auto px-5 sm:px-10 lg:px-12 h-[88px] flex items-center justify-between gap-6" id="topNavInner">
 <div class="flex items-center gap-8 lg:gap-12 min-w-0">
 <a class="flex items-center gap-3 shrink-0" href="#top">
 <img alt="ComexWise Logo" class="h-11 w-11 object-contain" decoding="async" loading="eager" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='./comW.png';return;}this.onerror=null;" src="./comW_new.png"/>
 <span class="brand-wordmark">ComexWise</span>
 </a>
-<div class="hidden md:flex items-center gap-2 lg:gap-3 relative pb-1" id="desktopNavLinks">
+<div class="hidden md:flex items-center gap-2.5 lg:gap-3.5 relative pb-1" id="desktopNavLinks">
 <a class="top-link section-select active" data-i18n="nav_platform" href="#platform">Platform</a>
 <a class="top-link section-select" data-i18n="nav_orders" href="#orders">Orders</a>
 <a class="top-link section-select" data-i18n="nav_partners" href="#partners">Partners</a>
@@ -734,8 +922,8 @@
 </button>
 </div>
 </div>
-<a class="hidden md:inline utility-link" data-i18n="nav_help" href="#about">Help</a>
-<a class="hidden md:inline utility-link" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
+<a class="hidden md:inline-flex items-center utility-link" data-i18n="nav_help" href="#about">Help</a>
+<a class="hidden md:inline-flex items-center utility-link" data-i18n="nav_login" href="https://comexwise.onrender.com/" rel="noopener">Log in</a>
 <a class="signup-btn magnetic hidden md:inline-flex" data-i18n="nav_contact" href="mailto:contact@comexwise.com">Contact us</a>
 <button aria-controls="mobileMenuPanel" aria-expanded="false" aria-label="Toggle navigation menu" class="mobile-menu-btn md:hidden" id="mobileMenuButton" type="button">
 <span class="material-symbols-outlined text-[1.25rem]" id="mobileMenuIcon">menu</span>
@@ -786,21 +974,21 @@
 <div class="hero-vignette parallax-layer" data-mouse-parallax="0.012" data-parallax-speed="0.08"></div>
 <div class="hero-grid parallax-layer" data-mouse-parallax="0.015" data-parallax-speed="-0.06"></div>
 <div class="hero-sheen parallax-layer" data-mouse-parallax="0.02" data-parallax-speed="0.2"></div>
-<div class="max-w-7xl mx-auto px-6 w-full relative z-10 text-center lg:text-left reveal-slide" data-mouse-parallax="0.015">
-<div class="max-w-4xl lg:editorial-margin">
-<span class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase rounded mb-6 parallax-layer" data-i18n="hero_badge" data-mouse-parallax="0.05" data-parallax-speed="0.06">The Future of Logistics</span>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10 text-center lg:text-left reveal-slide" data-mouse-parallax="0.015">
+<div class="hero-content max-w-4xl lg:editorial-margin">
+<span class="hero-badge inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase rounded mb-6 parallax-layer" data-i18n="hero_badge" data-mouse-parallax="0.05" data-parallax-speed="0.06">The Future of Logistics</span>
 <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl tracking-tighter text-white leading-[1.05] mb-8 text-shadow-md parallax-layer" data-i18n-html="hero_title" data-mouse-parallax="0.038" data-parallax-speed="0.03">
                 Manage your entire logistics operation <span class="hero-emphasis italic">across all partners</span> in one platform.
             </h1>
-<p class="text-xl md:text-2xl text-zinc-100 max-w-2xl mb-12 leading-relaxed text-shadow-sm parallax-layer" data-i18n="hero_subtitle" data-mouse-parallax="0.03" data-parallax-speed="0.02">
+<p class="hero-subtitle text-xl md:text-2xl text-zinc-100 max-w-2xl mb-12 leading-relaxed text-shadow-sm parallax-layer" data-i18n="hero_subtitle" data-mouse-parallax="0.03" data-parallax-speed="0.02">
                 No emails. No spreadsheets. No manual coordination. Orchestrate your global supply chain with mathematical precision and fluid automation.
             </p>
-<div class="flex flex-wrap gap-4 justify-center lg:justify-start parallax-layer" data-mouse-parallax="0.024" data-parallax-speed="0.015">
-<a class="px-10 py-5 bg-primary text-on-primary rounded-md font-bold text-xl hover:shadow-2xl hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all flex items-center gap-3 active:scale-95 cta-glow magnetic" href="https://comexwise.onrender.com/" rel="noopener">
+<div class="hero-actions flex flex-wrap gap-4 justify-center lg:justify-start parallax-layer" data-mouse-parallax="0.024" data-parallax-speed="0.015">
+<a class="hero-btn hero-btn-primary pressable px-10 py-5 bg-primary text-on-primary rounded-md font-bold text-xl flex items-center gap-3 cta-glow magnetic" href="https://comexwise.onrender.com/" rel="noopener">
 <span data-i18n="hero_cta_primary">Launch Dashboard</span>
                     <span class="material-symbols-outlined">arrow_forward</span>
 </a>
-<a class="px-10 py-5 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-md font-bold text-xl hover:bg-white/20 transition-all active:scale-95 cta-glow magnetic" data-i18n="hero_cta_secondary" href="mailto:contact@comexwise.com">
+<a class="hero-btn hero-btn-secondary pressable px-10 py-5 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-md font-bold text-xl cta-glow magnetic" data-i18n="hero_cta_secondary" href="mailto:contact@comexwise.com">
                     View Demo
                 </a>
 </div>
@@ -1436,6 +1624,10 @@
             const navLinkRail = document.getElementById("navLinkRail");
             const sectionDots = document.getElementById("sectionDots");
             const sectionDotButtons = Array.from(document.querySelectorAll(".section-dot[data-target]"));
+            const pressableNodes = Array.from(document.querySelectorAll(".top-link, .lang-trigger, .signup-btn, .mobile-menu-btn, .mobile-nav-link, .mobile-nav-action, .mobile-lang-option, .hero-btn"));
+            pressableNodes.forEach((node) => node.classList.add("pressable"));
+            const rhythmSections = Array.from(document.querySelectorAll("section"));
+            rhythmSections.forEach((section) => section.classList.add("cw-section"));
             let currentLocale = defaultLocale;
             let toastTimer = null;
             const motionProfiles = {
@@ -1473,6 +1665,7 @@
                     glideLift: 10
                 }
             };
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             const motionQuery = new URLSearchParams(window.location.search).get("motion");
             let storedMotionProfile = null;
             try {
@@ -1480,10 +1673,23 @@
             } catch (error) {
                 storedMotionProfile = null;
             }
-            const requestedMotionProfile = [motionQuery, storedMotionProfile, "balanced"]
+            const requestedMotionProfile = [motionQuery, storedMotionProfile, "subtle"]
                 .map((value) => (value || "").toLowerCase())
-                .find((name) => Object.prototype.hasOwnProperty.call(motionProfiles, name)) || "balanced";
-            const motion = motionProfiles[requestedMotionProfile];
+                .find((name) => Object.prototype.hasOwnProperty.call(motionProfiles, name)) || "subtle";
+            const motion = reduceMotion
+                ? {
+                    ...motionProfiles.subtle,
+                    parallax: 0,
+                    mouse: 0,
+                    magnetic: 0,
+                    tilt: 0,
+                    tiltLift: 0,
+                    revealMs: 220,
+                    preRevealY: 10,
+                    revealY: 8,
+                    glideLift: 2
+                }
+                : motionProfiles[requestedMotionProfile];
             try {
                 window.localStorage.setItem("cw-motion-profile", requestedMotionProfile);
             } catch (error) {
@@ -1505,6 +1711,7 @@
                 mobileMenuPanel.classList.remove("open");
                 mobileMenuPanel.setAttribute("aria-hidden", "true");
                 mobileMenuButton.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("mobile-menu-open");
                 if (mobileMenuIcon) {
                     mobileMenuIcon.textContent = "menu";
                 }
@@ -1514,6 +1721,7 @@
                 mobileMenuPanel.classList.add("open");
                 mobileMenuPanel.setAttribute("aria-hidden", "false");
                 mobileMenuButton.setAttribute("aria-expanded", "true");
+                document.body.classList.add("mobile-menu-open");
                 if (mobileMenuIcon) {
                     mobileMenuIcon.textContent = "close";
                 }
@@ -1644,7 +1852,7 @@
             );
             interactiveSections.forEach((section) => sectionFocusObserver.observe(section));
 
-            const pointerFine = window.matchMedia("(pointer:fine)").matches;
+            const pointerFine = window.matchMedia("(pointer:fine)").matches && !reduceMotion;
             const mouseParallaxNodes = Array.from(document.querySelectorAll("[data-mouse-parallax]"));
             const heroRoot = document.getElementById("top");
             if (heroRoot && pointerFine) {
@@ -1852,7 +2060,7 @@
             });
 
             const useInteractiveTilt = pointerFine;
-            document.querySelectorAll(".rounded-xl, .rounded-2xl, .rounded-3xl, .group").forEach((node) => {
+            document.querySelectorAll(".rounded-xl, .rounded-2xl, .rounded-3xl").forEach((node) => {
                 if (!(node instanceof HTMLElement)) return;
                 node.classList.add("glide-hover", "interactive-surface");
                 if (!useInteractiveTilt) return;
@@ -1911,8 +2119,8 @@
                 if (!scrollProgress) return;
                 const total = document.documentElement.scrollHeight - window.innerHeight;
                 const scrolled = Math.max(0, window.scrollY);
-                const pct = total > 0 ? (scrolled / total) * 100 : 0;
-                scrollProgress.style.width = `${Math.min(100, Math.max(0, pct)).toFixed(2)}%`;
+                const progress = total > 0 ? (scrolled / total) : 0;
+                scrollProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, progress)).toFixed(4)})`;
             };
 
             const updateParallax = () => {
@@ -1925,25 +2133,30 @@
                 if (resolvedHash && resolvedHash !== activeSectionHash) {
                     setActiveSection(resolvedHash);
                 }
-                const viewportCenter = window.innerHeight * 0.5;
-                parallaxTargets.forEach((node) => {
-                    if (!(node instanceof HTMLElement)) return;
-                    const rect = node.getBoundingClientRect();
-                    const speed = node.dataset.parallaxSpeed ? Number(node.dataset.parallaxSpeed) : 0.12;
-                    const offset = (viewportCenter - (rect.top + rect.height * 0.5)) * speed * motion.parallax;
+                if (!reduceMotion) {
+                    const viewportCenter = window.innerHeight * 0.5;
+                    const viewportBuffer = 280;
+                    parallaxTargets.forEach((node) => {
+                        if (!(node instanceof HTMLElement)) return;
+                        const rect = node.getBoundingClientRect();
+                        if (rect.bottom < -viewportBuffer || rect.top > window.innerHeight + viewportBuffer) return;
 
-                    if (node.classList.contains("parallax-section")) {
-                        node.style.backgroundPosition = `center calc(50% + ${offset.toFixed(2)}px)`;
-                    } else {
-                        const driftX = offset * speed * -0.36;
-                        if (node.classList.contains("parallax-layer")) {
-                            node.style.setProperty("--scroll-x", `${driftX.toFixed(2)}px`);
-                            node.style.setProperty("--scroll-y", `${offset.toFixed(2)}px`);
+                        const speed = node.dataset.parallaxSpeed ? Number(node.dataset.parallaxSpeed) : 0.12;
+                        const offset = (viewportCenter - (rect.top + rect.height * 0.5)) * speed * motion.parallax;
+
+                        if (node.classList.contains("parallax-section")) {
+                            node.style.backgroundPosition = `center calc(50% + ${offset.toFixed(2)}px)`;
                         } else {
-                            node.style.transform = `translate3d(${driftX.toFixed(2)}px, ${offset.toFixed(2)}px, 0)`;
+                            const driftX = offset * speed * -0.36;
+                            if (node.classList.contains("parallax-layer")) {
+                                node.style.setProperty("--scroll-x", `${driftX.toFixed(2)}px`);
+                                node.style.setProperty("--scroll-y", `${offset.toFixed(2)}px`);
+                            } else {
+                                node.style.transform = `translate3d(${driftX.toFixed(2)}px, ${offset.toFixed(2)}px, 0)`;
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 animationFrame = null;
             };
 
